@@ -26,7 +26,5 @@ module.exports = class CarController {
         res.render("cars/view/test.html")
     }
 
-
-
 }
 

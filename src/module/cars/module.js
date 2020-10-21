@@ -1,4 +1,5 @@
 const CarController = require('./controller/carController')
+const CarModel = require('./model/carModel')
 
 
 /**
@@ -14,5 +15,6 @@ function init(app, container) {
 
 module.exports = {
     init,
-    CarController
+    CarController,
+    CarModel
 }
