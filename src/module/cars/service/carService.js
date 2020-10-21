@@ -6,4 +6,8 @@ module.exports = class Service {
     async getData() {
         return this.carRepository.getData()
     }
+
+    async save(car) {
+        return this.carRepository.save(car)
+    }
 }

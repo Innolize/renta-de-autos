@@ -12,9 +12,11 @@ module.exports = class Repository {
     async getData() {
         const carList = await this.carModel.findAll()
         const list = carList.map(x => x.toJSON())
-        console.log(list)
     }
-
+    async save(car) {
+        const newCar = await this.carModel.build(car)
+        newCar.save()
+    }
 
 
 }

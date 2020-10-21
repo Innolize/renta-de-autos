@@ -20,8 +20,8 @@ const Car = container.get('CarModel');
         kilometraje: 180000,
         color: 'blanco',
         aireAcondicionado: false,
-        capacidad: 4,
-        cambios: "manual"
+        pasajeros: 4,
+        cajaCambios: "manual"
     })
     await corsa.save()
 
@@ -32,8 +32,8 @@ const Car = container.get('CarModel');
         kilometraje: 35000,
         color: 'gris',
         aireAcondicionado: true,
-        capacidad: 4,
-        cambios: "manual"
+        pasajeros: 4,
+        cajaCambios: "manual"
     })
     await cruze.save()
 
@@ -44,8 +44,8 @@ const Car = container.get('CarModel');
         kilometraje: 120000,
         color: 'azul',
         aireAcondicionado: true,
-        capacidad: 4,
-        cambios: "automatico"
+        pasajeros: 4,
+        cajaCambios: "automatico"
     })
     await argo.save()
 
@@ -56,8 +56,8 @@ const Car = container.get('CarModel');
         kilometraje: 340000,
         color: 'Rojo',
         aireAcondicionado: false,
-        capacidad: 4,
-        cambios: "manual"
+        pasajeros: 4,
+        cajaCambios: "manual"
     })
     await renault12.save()
 
@@ -68,8 +68,8 @@ const Car = container.get('CarModel');
         kilometraje: 40000,
         color: 'Rojo',
         aireAcondicionado: true,
-        capacidad: 4,
-        cambios: "automatico"
+        pasajeros: 4,
+        cajaCambios: "automatico"
     })
     await tesla.save()
 
@@ -80,8 +80,8 @@ const Car = container.get('CarModel');
         kilometraje: 110000,
         color: 'Gris',
         aireAcondicionado: true,
-        capacidad: 4,
-        cambios: "manual"
+        pasajeros: 4,
+        cajaCambios: "manual"
     })
     await Passat.save()
 

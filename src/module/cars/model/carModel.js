@@ -41,13 +41,19 @@ module.exports = class CarModel extends Model {
                     allowNull: false,
                     field: 'aire_acondicionado'
                 },
-                capacidad: {
+                pasajeros: {
                     type: DataTypes.INTEGER,
                     allowNull: false
                 },
-                cambios: {
-                    type: DataTypes.STRING
+                cajaCambios: {
+                    type: DataTypes.STRING,
+                    field: 'caja_cambios'
+                },
+                imagen: {
+                    type: DataTypes.STRING,
+                    allowNull: true
                 }
+
             },
             {
                 sequelize: sequelizeInstance,
