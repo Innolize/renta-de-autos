@@ -5,9 +5,12 @@
   "author": "Roman Mettler",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "nunjucks": "^3.2.2",
-    "rsdi": "^1.0.5"
+    "rsdi": "^1.0.5",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
     "jsdoc": "^3.6.6",
