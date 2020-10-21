@@ -1,6 +1,6 @@
 const { object, get, factory, default: DIContainer } = require('rsdi')
 const { Sequelize } = require('sequelize')
-const { CarController, CarModel } = require('../module/cars/module')
+const { CarController, CarService, CarRepository, CarModel } = require('../module/cars/module')
 
 /**
  * 
@@ -27,7 +27,9 @@ function configureCarModel(container) {
 
 function addCarModuleDefinitions(container) {
     container.addDefinitions({
-        CarController: object(CarController),
+        CarController: object(CarController).construct(get('CarService')),
+        CarService: object(CarService).construct(get('CarRepository')),
+        CarRepository: object(CarRepository).construct(get('CarModel')),
         CarModel: factory(configureCarModel)
     })
 }

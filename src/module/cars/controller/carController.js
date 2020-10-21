@@ -1,8 +1,9 @@
 
 
 module.exports = class CarController {
-    constructor() {
+    constructor(carService) {
         this.ROUTE_BASE = "/car"
+        this.carService = carService
     }
     /**
      * @param {import('express').Application} app
@@ -22,7 +23,8 @@ module.exports = class CarController {
      * @param {import('express').Response} res 
      */
 
-    index(req, res) {
+    async index(req, res) {
+        await this.carService.getData()
         res.render("cars/view/test.html")
     }
 

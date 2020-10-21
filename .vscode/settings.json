@@ -3,8 +3,8 @@
         {
             "previewLimit": 50,
             "driver": "SQLite",
-            "database": "${workspaceFolder:renta-de-autos}/data/dabase.db",
-            "name": "asd"
+            "database": "data/dabase.db",
+            "name": "Autos"
         }
     ]
 }

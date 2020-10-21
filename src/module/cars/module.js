@@ -1,4 +1,6 @@
 const CarController = require('./controller/carController')
+const CarService = require('./service/carService')
+const CarRepository = require('./repository/carRepository')
 const CarModel = require('./model/carModel')
 
 
@@ -16,5 +18,7 @@ function init(app, container) {
 module.exports = {
     init,
     CarController,
+    CarService,
+    CarRepository,
     CarModel
 }
