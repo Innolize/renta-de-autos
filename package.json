@@ -5,9 +5,14 @@
   "author": "Roman Mettler",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nunjucks": "^3.2.2",
+    "rsdi": "^1.0.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
+  },
+  "scripts": {
+    "dev": "nodemon src/app.js"
   }
 }
