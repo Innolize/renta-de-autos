@@ -1,0 +1,13 @@
+{
+  "name": "renta-de-autos",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Roman Mettler",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
