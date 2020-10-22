@@ -8,6 +8,7 @@ const configureDependencyInjection = require('./config/di')
 
 const container = configureDependencyInjection()
 
+app.use(express.static('public'))
 
 nunjucks.configure('src/module', {
     autoescape: true,

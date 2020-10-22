@@ -1,4 +1,4 @@
-const { fromDataToEntity } = require('../mapper/carMapper')
+const { fromFormToEntity } = require('../mapper/carMapper')
 
 module.exports = class CarController {
     constructor(uploadMiddleware, carService) {
@@ -12,10 +12,9 @@ module.exports = class CarController {
 
     configureRoutes(app) {
         const ROUTE = this.ROUTE_BASE
-
         app.get(`${ROUTE}`, this.index.bind(this))
         app.get(`${ROUTE}/form`, this.form.bind(this))
-        app.post(`${ROUTE}/save`, this.uploadMiddleware.single('image'), this.save.bind(this))
+        app.post(`${ROUTE}/save`, this.uploadMiddleware.single('imagen'), this.save.bind(this))
     }
 
     /**
@@ -33,7 +32,12 @@ module.exports = class CarController {
         res.render("cars/view/form.html")
     }
     async save(req, res) {
-        const car = fromDataToEntity(req.body)
+        const car = fromFormToEntity(req.body)
+        if (req.file) {
+            console.log(req.file)
+            const { filename } = req.file
+            car.imagen = `/uploads/cars/${filename}`
+        }
         await this.carService.save(car)
     }
 }
