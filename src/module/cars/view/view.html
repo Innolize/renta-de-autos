@@ -42,6 +42,16 @@
                     <td class="has-text-weight-bold">Caja de cambios:</td>
                     <td class="is-capitalized">{{car.cajaCambios}}</td>
                 </tr>
+                <tr>
+                    <td>
+                        <a href="/car/edit/{{car.id}}" class="button is-primary">Editar</a>
+                    </td>
+                    <td>
+                        <form action="/car/remove/{{car.id}}" method="POST">
+                            <button type="submit" class="button is-danger">Borrar</a>
+                        </form>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

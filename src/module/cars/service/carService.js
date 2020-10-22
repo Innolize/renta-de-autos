@@ -13,4 +13,7 @@ module.exports = class Service {
     async getById(id) {
         return this.carRepository.getById(id)
     }
+    async remove(id){
+        return this.carRepository.remove(id)
+    }
 }

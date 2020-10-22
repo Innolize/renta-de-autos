@@ -16,11 +16,19 @@ module.exports = class Repository {
         return fromDbToEntity(carList)
     }
     async save(car) {
-        const newCar = await this.carModel.build(car)
+        console.log(car)
+        const options = { isNewRecord: !car.id }
+        const newCar = await this.carModel.build(car, options)
         newCar.save()
     }
     async getById(id) {
         return await this.carModel.findByPk(id)
     }
-
+    async remove(id) {
+        return await this.carModel.destroy({
+            where: {
+                id: id
+            }
+        })
+    }
 }

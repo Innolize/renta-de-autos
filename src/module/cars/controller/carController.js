@@ -16,6 +16,8 @@ module.exports = class CarController {
         app.get(`${ROUTE}/form`, this.form.bind(this))
         app.post(`${ROUTE}/save`, this.uploadMiddleware.single('imagen'), this.save.bind(this))
         app.get(`${ROUTE}/view/:id`, this.view.bind(this))
+        app.get(`${ROUTE}/edit/:id`, this.edit.bind(this))
+        app.post(`${ROUTE}/remove/:id`, this.remove.bind(this))
     }
 
     /**
@@ -41,6 +43,8 @@ module.exports = class CarController {
             car.imagen = `/uploads/cars/${filename}`
         }
         await this.carService.save(car)
+
+        res.redirect("/car")
     }
 
     /**
@@ -52,7 +56,18 @@ module.exports = class CarController {
     async view(req, res) {
         const { id } = req.params
         const car = await this.carService.getById(id)
-        res.render("cars/view/view.html", {car})
+        res.render("cars/view/view.html", { car })
+    }
+
+    async edit(req, res) {
+        const { id } = req.params
+        const car = await this.carService.getById(id)
+        res.render("cars/view/form.html", { car })
+    }
+    async remove(req, res) {
+        const { id } = req.params
+        const car = await this.carService.remove(id)
+        res.redirect("/car")
     }
 }
 
