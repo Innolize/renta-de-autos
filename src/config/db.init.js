@@ -22,7 +22,7 @@ const Car = container.get('CarModel');
         aireAcondicionado: false,
         pasajeros: 4,
         cajaCambios: "manual",
-        imagen: '/uploads/carsDefault/chevrolet-corsa'
+        imagen: '/uploads/carsDefault/chevrolet-corsa.jpg'
     })
     await corsa.save()
 
@@ -35,7 +35,7 @@ const Car = container.get('CarModel');
         aireAcondicionado: true,
         pasajeros: 4,
         cajaCambios: "manual",
-        imagen: '/uploads/carsDefault/chevrolet-cruze'
+        imagen: '/uploads/carsDefault/chevrolet-cruze.jpg'
     })
     await cruze.save()
 
@@ -48,7 +48,7 @@ const Car = container.get('CarModel');
         aireAcondicionado: true,
         pasajeros: 4,
         cajaCambios: "automatico",
-        imagen: '/uploads/carsDefault/fiat-argo'
+        imagen: '/uploads/carsDefault/fiat-argo.jpeg'
     })
     await argo.save()
 
@@ -61,7 +61,7 @@ const Car = container.get('CarModel');
         aireAcondicionado: false,
         pasajeros: 4,
         cajaCambios: "manual",
-        imagen: '/uploads/carsDefault/renault-12'
+        imagen: '/uploads/carsDefault/renault-12.jpg'
     })
     await renault12.save()
 
@@ -74,7 +74,7 @@ const Car = container.get('CarModel');
         aireAcondicionado: true,
         pasajeros: 4,
         cajaCambios: "automatico",
-        imagen: '/uploads/carsDefault/tesla-s'
+        imagen: '/uploads/carsDefault/tesla-s.jpg'
     })
     await tesla.save()
 
@@ -87,7 +87,7 @@ const Car = container.get('CarModel');
         aireAcondicionado: true,
         pasajeros: 4,
         cajaCambios: "manual",
-        imagen: '/uploads/carsDefault/volkswagen-passat'
+        imagen: '/uploads/carsDefault/volkswagen-passat.jpg'
     })
     await Passat.save()
 

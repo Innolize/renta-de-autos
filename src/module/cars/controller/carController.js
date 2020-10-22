@@ -24,8 +24,8 @@ module.exports = class CarController {
      */
 
     async index(req, res) {
-        await this.carService.getData()
-        res.render("cars/view/index.html")
+        const cars = await this.carService.getData()
+        res.render("cars/view/index.html", { cars })
     }
 
     form(req, res) {

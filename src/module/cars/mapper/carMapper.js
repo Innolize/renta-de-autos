@@ -1,6 +1,6 @@
 const Car = require('../entity/Car')
 
-function fromFormToEntity({ id, marca, modelo, año, kilometraje, color, "aire-acondicionado": aireAcondicionado, pasajeros, "caja-cambios": cajaCambios}) {
+function fromFormToEntity({ id, marca, modelo, año, kilometraje, color, "aire-acondicionado": aireAcondicionado, pasajeros, "caja-cambios": cajaCambios }) {
     return new Car({
         id,
         marca,
@@ -14,6 +14,12 @@ function fromFormToEntity({ id, marca, modelo, año, kilometraje, color, "aire-a
     })
 }
 
+function fromDbToEntity(array) {
+    return array.map(x => x.toJSON())
+}
+
+
 module.exports = {
-    fromFormToEntity
+    fromFormToEntity,
+    fromDbToEntity
 }
