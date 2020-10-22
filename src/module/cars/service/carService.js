@@ -10,4 +10,7 @@ module.exports = class Service {
     async save(car) {
         return this.carRepository.save(car)
     }
+    async getById(id) {
+        return this.carRepository.getById(id)
+    }
 }

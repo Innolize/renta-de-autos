@@ -19,6 +19,8 @@ module.exports = class Repository {
         const newCar = await this.carModel.build(car)
         newCar.save()
     }
-
+    async getById(id) {
+        return await this.carModel.findByPk(id)
+    }
 
 }

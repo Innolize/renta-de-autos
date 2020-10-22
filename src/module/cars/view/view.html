@@ -1,0 +1,50 @@
+{% extends "view/layout/base.html" %}
+
+{% block body %}
+
+<h1 class="is-size-1 has-text-centered is-capitalized">{{car.marca}} {{car.modelo}}</h1>
+<div class="container ">
+    <figure class="image">
+        <img src={{car.imagen}}>
+    </figure>
+    <div class="container is-flex is-justify-content-center mt-3">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td class="has-text-weight-bold">Marca:</td>
+                    <td class="is-capitalized">{{car.marca}}</td>
+                </tr>
+                <tr>
+                    <td class="has-text-weight-bold">Modelo:</td>
+                    <td class="is-capitalized">{{car.modelo}}</td>
+                </tr>
+                <tr>
+                    <td class="has-text-weight-bold">Año:</td>
+                    <td>{{car.año}}</td>
+                </tr>
+                <tr>
+                    <td class="has-text-weight-bold">Kilometraje:</td>
+                    <td>{{car.kilometraje}}</td>
+                </tr>
+                <tr>
+                    <td class="has-text-weight-bold">Color:</td>
+                    <td class="is-capitalized">{{car.color}}</td>
+                </tr>
+                <tr>
+                    <td class="has-text-weight-bold">Aire acondicionado:</td>
+                    <td class="is-capitalized">{{car.aireAcondicionado}}</td>
+                </tr>
+                <tr>
+                    <td class="has-text-weight-bold">Pasajeros:</td>
+                    <td>{{car.pasajeros}}</td>
+                </tr>
+                <tr>
+                    <td class="has-text-weight-bold">Caja de cambios:</td>
+                    <td class="is-capitalized">{{car.cajaCambios}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

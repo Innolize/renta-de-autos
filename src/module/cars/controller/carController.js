@@ -15,6 +15,7 @@ module.exports = class CarController {
         app.get(`${ROUTE}`, this.index.bind(this))
         app.get(`${ROUTE}/form`, this.form.bind(this))
         app.post(`${ROUTE}/save`, this.uploadMiddleware.single('imagen'), this.save.bind(this))
+        app.get(`${ROUTE}/view/:id`, this.view.bind(this))
     }
 
     /**
@@ -31,6 +32,7 @@ module.exports = class CarController {
     form(req, res) {
         res.render("cars/view/form.html")
     }
+
     async save(req, res) {
         const car = fromFormToEntity(req.body)
         if (req.file) {
@@ -39,6 +41,18 @@ module.exports = class CarController {
             car.imagen = `/uploads/cars/${filename}`
         }
         await this.carService.save(car)
+    }
+
+    /**
+     * 
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res 
+     */
+
+    async view(req, res) {
+        const { id } = req.params
+        const car = await this.carService.getById(id)
+        res.render("cars/view/view.html", {car})
     }
 }
 

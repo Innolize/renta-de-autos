@@ -6,7 +6,7 @@
     <h1 class='is-size-1 has-text-centered'>Vehiculos</h1>
     <div class="columns is-flex-wrap-wrap mt-3">
         {% for car in cars %}
-        <div class="column is-half">
+        <div class="column is-one-third">
             <div class="card">
                 <div class="card-image">
                     <figure class="image is-4by3">
@@ -19,7 +19,7 @@
                     <p class="subtitle is-5">{{car.año}}</p>
                 </div>
                 <footer class="card-footer">
-                    <a href="#" class="card-footer-item">Más info</a>
+                    <a href="/car/view/{{car.id}}" class="card-footer-item">Más info</a>
                     <a href="#" class="card-footer-item">Alquilar</a>
                 </footer>
             </div>
