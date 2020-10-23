@@ -1,5 +1,6 @@
 const { fromFormToEntity } = require('../mapper/carMapper')
 const AbstractController = require('../../abstractController')
+const CarIdNotDefinedError = require('../repository/error/carIdNotDefinedError')
 
 module.exports = class CarController extends AbstractController {
     constructor(uploadMiddleware, carService) {
@@ -31,12 +32,11 @@ module.exports = class CarController extends AbstractController {
      */
 
     async index(req, res) {
-        req.session.message = "test"
-
-        const messages = req.session.message
-        console.log(messages)
         const cars = await this.carService.getData()
-        res.render("cars/view/index.html", { cars, messages })
+        const { errors, messages } = req.session
+        res.render("cars/view/index.html", { cars, messages, errors })
+        req.session.messages = []
+        req.session.errors = []
     }
 
     form(req, res) {
@@ -44,15 +44,29 @@ module.exports = class CarController extends AbstractController {
     }
 
     async save(req, res) {
-        const car = fromFormToEntity(req.body)
-        if (req.file) {
-            console.log(req.file)
-            const { filename } = req.file
-            car.imagen = `/uploads/cars/${filename}`
-        }
-        await this.carService.save(car)
+        try {
+            const car = fromFormToEntity(req.body)
+            if (req.file) {
+                console.log(req.file)
+                const { filename } = req.file
+                car.imagen = `/uploads/cars/${filename}`
+            }
+            const savedCar = await this.carService.save(car)
+            console.log(savedCar)
 
-        res.redirect("/car")
+            if (car.id) {
+                req.session.messages = [`El auto con id ${car.id} se actualizo con exito`]
+            } else {
+                req.session.messages = [`Se creo nuevo auto con id ${savedCar.id}`]
+            }
+            res.redirect("/car")
+
+        } catch (e) {
+            req.session.errors = [e.message]
+            res.redirect("/car")
+        }
+
+
     }
 
     /**
@@ -63,18 +77,43 @@ module.exports = class CarController extends AbstractController {
 
     async view(req, res) {
         const { id } = req.params
-        const car = await this.carService.getById(id)
-        res.render("cars/view/view.html", { car })
+        if (!id) {
+            throw new CarIdNotDefinedError()
+        }
+        try {
+            const car = await this.carService.getById(id)
+            res.render("cars/view/view.html", { car })
+        } catch (e) {
+            req.session.messages = [e.message]
+            res.redirect('/car')
+        }
     }
 
     async edit(req, res) {
         const { id } = req.params
-        const car = await this.carService.getById(id)
-        res.render("cars/view/form.html", { car })
+        if (!id) {
+            throw new CarIdNotDefinedError()
+        }
+        try {
+            const car = await this.carService.getById(id)
+            res.render("cars/view/form.html", { car })
+        } catch (e) {
+            req.session.errors = [e.message]
+            res.redirect('/car')
+        }
     }
+
     async remove(req, res) {
         const { id } = req.params
-        const car = await this.carService.remove(id)
+        if (!id) {
+            throw new CarIdNotDefinedError()
+        }
+        try {
+            const car = await this.carService.remove(id)
+            req.session.messages = [`El auto con id ${id} se ha eliminado`]
+        } catch (e) {
+            req.session.errors = [`No se pudo eliminar el auto con id ${id}`]
+        }
         res.redirect("/car")
     }
 }

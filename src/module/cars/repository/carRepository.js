@@ -28,7 +28,7 @@ module.exports = class Repository extends AbstractCarRepository {
     async save(car) {
         const options = { isNewRecord: !car.id }
         const newCar = await this.carModel.build(car, options)
-        newCar.save()
+        return newCar.save()
     }
 
     /**
