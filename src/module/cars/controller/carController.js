@@ -1,7 +1,9 @@
 const { fromFormToEntity } = require('../mapper/carMapper')
+const AbstractController = require('../../abstractController')
 
-module.exports = class CarController {
+module.exports = class CarController extends AbstractController {
     constructor(uploadMiddleware, carService) {
+        super()
         this.ROUTE_BASE = "/car"
         this.carService = carService
         this.uploadMiddleware = uploadMiddleware
@@ -12,11 +14,13 @@ module.exports = class CarController {
 
     configureRoutes(app) {
         const ROUTE = this.ROUTE_BASE
+        //get
         app.get(`${ROUTE}`, this.index.bind(this))
         app.get(`${ROUTE}/form`, this.form.bind(this))
-        app.post(`${ROUTE}/save`, this.uploadMiddleware.single('imagen'), this.save.bind(this))
         app.get(`${ROUTE}/view/:id`, this.view.bind(this))
         app.get(`${ROUTE}/edit/:id`, this.edit.bind(this))
+        //post
+        app.post(`${ROUTE}/save`, this.uploadMiddleware.single('imagen'), this.save.bind(this))
         app.post(`${ROUTE}/remove/:id`, this.remove.bind(this))
     }
 
