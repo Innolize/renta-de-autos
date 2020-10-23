@@ -31,8 +31,12 @@ module.exports = class CarController extends AbstractController {
      */
 
     async index(req, res) {
+        req.session.message = "test"
+
+        const messages = req.session.message
+        console.log(messages)
         const cars = await this.carService.getData()
-        res.render("cars/view/index.html", { cars })
+        res.render("cars/view/index.html", { cars, messages })
     }
 
     form(req, res) {

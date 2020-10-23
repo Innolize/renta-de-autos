@@ -7,6 +7,7 @@ const { init: initCarModule } = require('./module/cars/module')
 const configureDependencyInjection = require('./config/di')
 
 const container = configureDependencyInjection()
+app.use(container.get('Session'))
 
 app.use(express.static('public'))
 

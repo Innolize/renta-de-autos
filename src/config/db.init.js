@@ -4,6 +4,8 @@ const configureDependencyInjection = require('./di')
 
 const app = express()
 const container = configureDependencyInjection(app)
+app.use(container.get('Session'))
+
 
 const mainDb = container.get('Sequelize')
 
@@ -92,3 +94,6 @@ const Car = container.get('CarModel');
     await Passat.save()
 
 })()
+
+const sessionDb = container.get('SessionSequelize')
+sessionDb.sync()

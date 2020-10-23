@@ -5,8 +5,10 @@
   "author": "Roman Mettler",
   "license": "MIT",
   "dependencies": {
+    "connect-session-sequelize": "^7.0.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "multer": "^1.4.2",
     "nunjucks": "^3.2.2",
     "rsdi": "^1.0.5",

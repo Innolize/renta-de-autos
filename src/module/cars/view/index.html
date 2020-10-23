@@ -2,8 +2,17 @@
 
 {% block body %}
 <div class="container">
+
     <a class="button mt-3" href="/car/form">Nuevo vehiculo</a>
     <h1 class='is-size-1 has-text-centered'>Vehiculos</h1>
+
+    {%if messages %}
+    <div class="notification is-success has-text-centered">
+        <h1 class="is-size-5">{{messages}}</h1>
+    </div>
+    {%endif%}
+
+    
     <div class="columns is-flex-wrap-wrap mt-3">
         {% for car in cars %}
         <div class="column is-one-third">
