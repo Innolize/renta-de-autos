@@ -16,6 +16,7 @@ module.exports = class CarController extends AbstractController {
     configureRoutes(app) {
         const ROUTE = this.ROUTE_BASE
         //get
+        app.get(`/`, this.index.bind(this))
         app.get(`${ROUTE}`, this.index.bind(this))
         app.get(`${ROUTE}/form`, this.form.bind(this))
         app.get(`${ROUTE}/view/:id`, this.view.bind(this))
@@ -33,7 +34,6 @@ module.exports = class CarController extends AbstractController {
 
     async index(req, res) {
         const cars = await this.carService.getData()
-        console.log(cars)
         const { errors, messages } = req.session
         res.render("cars/view/index.html", { cars, messages, errors })
         req.session.messages = []

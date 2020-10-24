@@ -185,6 +185,6 @@ test('configureRoutes llama a app', () => {
 
     controller.configureRoutes(app)
 
-    expect(app.get).toHaveBeenCalledTimes(4)
+    expect(app.get).toHaveBeenCalledTimes(5)
     expect(app.post).toHaveBeenCalledTimes(2)
 })

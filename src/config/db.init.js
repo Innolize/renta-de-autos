@@ -8,8 +8,9 @@ app.use(container.get('Session'))
 
 
 const mainDb = container.get('Sequelize')
-
+const User = container.get('UserModel')
 const Car = container.get('CarModel');
+
 
 (async () => {
 
@@ -93,6 +94,10 @@ const Car = container.get('CarModel');
     })
     await Passat.save()
 
+
+    const Usuarios = await User.bulkCreate([
+        { nombre: "Carlitos", apellido: "Test", tipoDocumento: "DNI", numeroDocumento: "35945234", nacionalidad: "Argentina", direccion: "direccionTest 352", telefono: 45674321, email: "test123@yahoo.com", nacimiento: 1603504320266 }
+    ])
 })()
 
 const sessionDb = container.get('SessionSequelize')

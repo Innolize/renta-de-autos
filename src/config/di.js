@@ -3,11 +3,10 @@ const { Sequelize } = require('sequelize')
 const multer = require('multer')
 const path = require('path')
 const session = require('express-session')
-const { sequelize } = require('../module/cars/model/carModel')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 const { CarController, CarService, CarRepository, CarModel } = require('../module/cars/module')
-const { UserController, UserModel } = require('../module/users/module')
+const { UserController, UserModel, UserRepository, UserService } = require('../module/users/module')
 
 /**
  * 
@@ -58,6 +57,11 @@ function configureCarModel(container) {
     return CarModel
 }
 
+function configureUserModel(container) {
+    UserModel.setup(container.get('Sequelize'))
+    return UserModel
+}
+
 function addCarModuleDefinitions(container) {
     container.addDefinitions({
         CarController: object(CarController).construct(get('Multer'), get('CarService')),
@@ -74,8 +78,10 @@ function addCarModuleDefinitions(container) {
 
 function addUserModuleDefinitions(container) {
     container.addDefinitions({
-        UserController: object(UserController),
-        UserModel: object(UserModel)
+        UserController: object(UserController).construct(get('Multer'), get('UserService')),
+        UserService: object(UserService).construct(get('UserRepository')),
+        UserRepository: object(UserRepository).construct(get('UserModel')),
+        UserModel: factory(configureUserModel)
 
     })
 }

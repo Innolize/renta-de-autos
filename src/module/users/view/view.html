@@ -1,0 +1,56 @@
+{% extends "view/layout/base.html" %}
+
+{% block body %}
+<div class="container is-flex is-justify-content-center mt-3">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="has-text-weight-bold">Nombre:</td>
+                <td class="is-capitalized">{{user.nombre}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Apellido:</td>
+                <td class="is-capitalized">{{user.apellido}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Tipo Documento:</td>
+                <td>{{user.tipoDocumento}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Nro Documento:</td>
+                <td>{{user.numeroDocumento}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Nacionalidad:</td>
+                <td class="is-capitalized">{{user.nacionalidad}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Dirección:</td>
+                <td class="is-capitalized">{{user.direccion}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Telefono:</td>
+                <td>{{user.direccion}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">E-mail:</td>
+                <td class="is-capitalized">{{user.email}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Fecha de nacimiento:</td>
+                <td class="is-capitalized">{{user.fechaNacimiento}}</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="/user/edit/{{user.id}}" class="button is-primary">Editar</a>
+                </td>
+                <td>
+                    <form action="/user/remove/{{user.id}}" method="POST">
+                        <button type="submit" class="button is-danger">Borrar</a>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

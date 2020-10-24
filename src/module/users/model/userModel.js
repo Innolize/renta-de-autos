@@ -52,11 +52,11 @@ module.exports = class UserModel extends Model {
                 },
                 creado: {
                     type: DataTypes.DATE,
-                    defaultValue: sequelize.NOW
+                    defaultValue: Sequelize.NOW
                 },
                 actualizado: {
                     type: DataTypes.DATE,
-                    defaultValue: sequelize.NOW
+                    defaultValue: Sequelize.NOW
                 }
             },
             {

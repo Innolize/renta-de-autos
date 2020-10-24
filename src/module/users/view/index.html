@@ -17,22 +17,29 @@
     </div>
     {%endfor%}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Usuario</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Carlitos test</td>
-            <td>Ver, Modificar, Eliminar</td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table is-fullwidth has-text-centered is-bordered is-hoverable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.nombre}} {{user.apellido}}</td>
+                <td>
+                    <a href="user/view/{{user.id}}">Ver</a>
+                    <a href="user/edit/{{user.id}}">Modificar</a>
+                    <a href="user/delete/{{user.id}}">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
 
 
 

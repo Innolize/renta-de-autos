@@ -1,6 +1,7 @@
 module.exports = class User {
-    constructor(nombre, apellido, tipoDocumento, numeroDocumento, nacionalidad, direccion, telefono, email) {
-        this.nombre = nombre,
+    constructor({ id, nombre, apellido, tipoDocumento, numeroDocumento, nacionalidad, direccion, telefono, email, nacimiento }) {
+        this.id = id,
+            this.nombre = nombre,
             this.apellido = apellido,
             this.tipoDocumento = tipoDocumento,
             this.numeroDocumento = numeroDocumento,
