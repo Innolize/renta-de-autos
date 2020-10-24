@@ -1,4 +1,4 @@
-const AbstractController = require("../../abstractController")
+const AbstractCarRepositoryError = require('./error/abstractCarRepositoryError')
 
 module.exports = class AbstractCarRepository {
     constructor() {

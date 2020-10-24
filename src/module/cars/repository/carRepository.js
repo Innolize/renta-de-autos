@@ -26,9 +26,14 @@ module.exports = class Repository extends AbstractCarRepository {
      */
 
     async save(car) {
+        if (car === undefined) {
+            throw new CarNotFoundError()
+        }
+        let newCar
         const options = { isNewRecord: !car.id }
-        const newCar = await this.carModel.build(car, options)
-        return newCar.save()
+        newCar = this.carModel.build(car, options)
+        newCar = await newCar.save()
+        return fromDbToEntity(newCar)
     }
 
     /**
@@ -40,7 +45,7 @@ module.exports = class Repository extends AbstractCarRepository {
         const car = await this.carModel.findByPk(id)
 
         if (!car) {
-            throw new CarNotFoundError(`No se encontro un auto con id ${id}`)
+            throw new CarNotFoundError()
         }
 
         return fromDbToEntity(car)
@@ -57,10 +62,10 @@ module.exports = class Repository extends AbstractCarRepository {
             throw new CarIdNotDefinedError(`No se encontro id`)
         }
 
-        return await this.carModel.destroy({
+        return Boolean(await this.carModel.destroy({
             where: {
                 id: id
             }
-        })
+        }))
     }
 }

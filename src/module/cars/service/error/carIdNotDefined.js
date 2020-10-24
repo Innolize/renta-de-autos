@@ -1,1 +1,1 @@
-module.exports = class carIdNotDefinedError extends Error { }
+module.exports = class CarIdNotDefinedError extends Error { }

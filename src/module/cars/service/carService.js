@@ -1,5 +1,5 @@
 const CarNotDefinedError = require('./error/carNotDefined')
-const CarIdNotDefined = require('./error/carIdNotDefined')
+const CarIdNotDefinedError = require('./error/carIdNotDefined')
 
 module.exports = class Service {
     constructor(carRepository) {

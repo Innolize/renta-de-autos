@@ -48,12 +48,10 @@ module.exports = class CarController extends AbstractController {
         try {
             const car = fromFormToEntity(req.body)
             if (req.file) {
-                console.log(req.file)
                 const { filename } = req.file
                 car.imagen = `/uploads/cars/${filename}`
             }
             const savedCar = await this.carService.save(car)
-            console.log(savedCar)
 
             if (car.id) {
                 req.session.messages = [`El auto con id ${car.id} se actualizo con exito`]
