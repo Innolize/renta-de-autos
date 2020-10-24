@@ -1,2 +1,5 @@
 node_modules/
 coverage/
+
+##ignora archivos de tipo database
+*.db
