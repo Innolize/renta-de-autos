@@ -1,0 +1,47 @@
+{% extends "view/layout/base.html" %}
+
+{% block body %}
+<div class="container">
+
+    <a class="button mt-3" href="/car/form">Nuevo vehiculo</a>
+    <h1 class='is-size-1 has-text-centered'>Vehiculos</h1>
+
+    {% for message in messages %}
+    <div class="notification is-success has-text-centered">
+        <h1 class="is-size-5">{{message}}</h1>
+    </div>
+    {%endfor%}
+
+    {% for error in errors %}
+    <div class="notification is-danger has-text-centered">
+        <h1 class="is-size-5">{{error}}</h1>
+    </div>
+    {%endfor%}
+
+    
+    <div class="columns is-flex-wrap-wrap mt-3">
+        {% for car in cars %}
+        <div class="column is-one-third">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src={{car.imagen}} alt="Placeholder image">
+                    </figure>
+
+                </div>
+                <div class="media-content mt-2 mb-2 has-text-centered">
+                    <p class="title is-3 is-capitalized">{{car.marca}}, {{car.modelo}}</p>
+                    <p class="subtitle is-5">{{car.año}}</p>
+                </div>
+                <footer class="card-footer">
+                    <a href="/car/view/{{car.id}}" class="card-footer-item">Más info</a>
+                    <a href="#" class="card-footer-item">Alquilar</a>
+                </footer>
+            </div>
+        </div>
+        {% else %}
+        <h1 class="is-size-4">No hay autos!</h1>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
