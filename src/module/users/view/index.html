@@ -1,0 +1,46 @@
+{% extends "view/layout/base.html" %}
+
+{% block body %}
+<div class="container">
+    <a class="button mt-3" href="/user/form">Nuevo Usuario</a>
+    <h1 class='is-size-1 has-text-centered'>Usuarios</h1>
+
+    {% for message in messages %}
+    <div class="notification is-success has-text-centered">
+        <h1 class="is-size-5">{{message}}</h1>
+    </div>
+    {%endfor%}
+
+    {% for error in errors %}
+    <div class="notification is-danger has-text-centered">
+        <h1 class="is-size-5">{{error}}</h1>
+    </div>
+    {%endfor%}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Carlitos test</td>
+            <td>Ver, Modificar, Eliminar</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+</div>
+
+{% endblock %}

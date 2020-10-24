@@ -1,11 +1,13 @@
 const { object, get, factory, default: DIContainer } = require('rsdi')
 const { Sequelize } = require('sequelize')
-const { CarController, CarService, CarRepository, CarModel } = require('../module/cars/module')
 const multer = require('multer')
 const path = require('path')
 const session = require('express-session')
 const { sequelize } = require('../module/cars/model/carModel')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
+
+const { CarController, CarService, CarRepository, CarModel } = require('../module/cars/module')
+const { UserController, UserModel } = require('../module/users/module')
 
 /**
  * 
@@ -65,6 +67,20 @@ function addCarModuleDefinitions(container) {
     })
 }
 
+/**
+ * 
+ * @param {DIContainer} container 
+ */
+
+function addUserModuleDefinitions(container) {
+    container.addDefinitions({
+        UserController: object(UserController),
+        UserModel: object(UserModel)
+
+    })
+}
+
+
 function configureMulter() {
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -94,6 +110,7 @@ function addCommonDefinitions(container) {
 module.exports = function configureDI() {
     const container = new DIContainer()
     addCarModuleDefinitions(container)
+    addUserModuleDefinitions(container)
     addCommonDefinitions(container)
     return container
 }
