@@ -36,11 +36,17 @@
             </div>
         </div>
         <div class="field">
+            <label class="label">Precio</label>
+            <div class="control">
+                <input type="number" class="input" name='precio' placeholder="100" value={{car.precio}}>
+            </div>
+        </div>
+        <div class="field">
             <label class="label">Aire Acondicionado</label>
             <div class="control">
                 <div class="select">
                     <select name='aire-acondicionado'>
-                        <option value='true' {{"selected" if car.aireAcondicionado === true}} >Si</option>
+                        <option value='true' {{"selected" if car.aireAcondicionado === true}}>Si</option>
                         <option value="false" {{"selected" if car.aireAcondicionado === false}}>No</option>
                     </select>
                 </div>
@@ -58,7 +64,8 @@
                 <div class="select">
                     <select name="caja-cambios">
                         <option value="manual" {{"selected" if car.cajaCambios === "manual"}}>Manual</option>
-                        <option value="automatico" {{"selected" if car.cajaCambios === "automatico"}}>Automatico</option>
+                        <option value="automatico" {{"selected" if car.cajaCambios === "automatico"}}>Automatico
+                        </option>
                     </select>
                 </div>
             </div>

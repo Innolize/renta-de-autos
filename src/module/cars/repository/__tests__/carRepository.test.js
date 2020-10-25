@@ -18,6 +18,7 @@ const sampleCar = new CarEntity({
     aireAcondicionado: true,
     pasajeros: 4,
     cajaCambios: "manual",
+    precio:200,
     imagen: '/uploads/carsDefault/volkswagen-passat.jpg'
 })
 
@@ -30,6 +31,7 @@ const sampleCar2 = new CarEntity({
     aireAcondicionado: true,
     pasajeros: 4,
     cajaCambios: "automatico",
+    precio:200,
     imagen: '/uploads/carsDefault/tesla-s.jpg'
 })
 
