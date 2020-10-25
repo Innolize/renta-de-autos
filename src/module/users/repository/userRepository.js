@@ -20,8 +20,24 @@ module.exports = class UserRepository extends AbstractUserRepository {
 
     async getById(id) {
         console.log(id)
-        const car = await this.userModel.findByPk(id)
-        return fromDbToEntity(car)
+        const user = await this.userModel.findByPk(id)
+        return fromDbToEntity(user)
     }
 
+    async remove(id) {
+        const user = await this.userModel.destroy({
+            where: {
+                id: id
+            }
+        })
+        return user
+    }
+
+    async save(user) {
+        let newUser
+        const options = { isNewRecord: !user.id }
+        newUser = this.userModel.build(user, options)
+        newUser = await newUser.save()
+        return fromDbToEntity(newUser)
+    }
 }

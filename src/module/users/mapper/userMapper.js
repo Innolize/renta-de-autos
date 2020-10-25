@@ -1,6 +1,6 @@
 const User = require('../entity/User')
 
-function fromFormToEntity({ id, nombre, apellido, "tipo-documento": tipoDocumento, "numero-documento": numeroDocumento, nacionalidad, direccion, telefono, email, nacimiento }) {
+function fromFormToEntity({ id, nombre, apellido, "tipo-documento": tipoDocumento, "numero-documento": numeroDocumento, nacionalidad, direccion, telefono, email, "fecha-nacimiento": nacimiento }) {
     return new User({
         id,
         nombre,

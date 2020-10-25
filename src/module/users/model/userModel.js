@@ -47,7 +47,7 @@ module.exports = class UserModel extends Model {
                     allowNull: false
                 },
                 nacimiento: {
-                    type: DataTypes.DATE,
+                    type: DataTypes.STRING,
                     allowNull: false
                 },
                 creado: {

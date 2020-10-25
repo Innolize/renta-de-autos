@@ -10,4 +10,12 @@ module.exports = class Service {
     async getById(id) {
         return await this.userRepository.getById(id)
     }
+
+    async remove(id) {
+        return await this.userRepository.remove(id)
+    }
+
+    async save(user) {
+        return await this.userRepository.save(user)
+    }
 }

@@ -96,7 +96,7 @@ const Car = container.get('CarModel');
 
 
     const Usuarios = await User.bulkCreate([
-        { nombre: "Carlitos", apellido: "Test", tipoDocumento: "DNI", numeroDocumento: "35945234", nacionalidad: "Argentina", direccion: "direccionTest 352", telefono: 45674321, email: "test123@yahoo.com", nacimiento: 1603504320266 }
+        { nombre: "Carlitos", apellido: "Test", tipoDocumento: "DNI", numeroDocumento: "35945234", nacionalidad: "Argentina", direccion: "direccionTest 352", telefono: 45674321, email: "test123@yahoo.com", nacimiento: "1990-05-05" }
     ])
 })()
 
