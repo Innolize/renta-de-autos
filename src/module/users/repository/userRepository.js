@@ -1,7 +1,8 @@
 const { fromDbToEntity } = require('../mapper/userMapper')
 const AbstractUserRepository = require('./abstractUserRepository')
-const UserIdNotDefinedError = require('../controller/error/userIdNotDefinedError')
-const UserNotDefinedError = require('../controller/error/userNotDefinedError')
+const UserIdNotDefinedError = require('./error/userIdNotDefinedError')
+const UserNotDefinedError = require('./error/userNotDefinedError')
+const UserNotFoundError = require('./error/userNotFoundError')
 
 module.exports = class UserRepository extends AbstractUserRepository {
 
@@ -25,6 +26,9 @@ module.exports = class UserRepository extends AbstractUserRepository {
             throw new UserIdNotDefinedError()
         }
         const user = await this.userModel.findByPk(id)
+        if (!user) {
+            throw new UserNotFoundError()
+        }
         return fromDbToEntity(user)
     }
 
@@ -37,7 +41,7 @@ module.exports = class UserRepository extends AbstractUserRepository {
                 id: id
             }
         })
-        return user
+        return Boolean(user)
     }
 
     async save(user) {
