@@ -1,5 +1,5 @@
-const userIdNotDefinedError = require('../controller/error/userIdNotDefinedError')
-const userNotDefinedError = require('../controller/error/userNotDefinedError')
+const UserIdNotDefinedError = require('../controller/error/userIdNotDefinedError')
+const UserNotDefinedError = require('../controller/error/userNotDefinedError')
 
 module.exports = class Service {
     constructor(userRepository) {
@@ -12,21 +12,21 @@ module.exports = class Service {
 
     async getById(id) {
         if (!id) {
-            throw new userIdNotDefinedError()
+            throw new UserIdNotDefinedError()
         }
         return await this.userRepository.getById(id)
     }
 
     async remove(id) {
         if (!id) {
-            throw new userIdNotDefinedError()
+            throw new UserIdNotDefinedError()
         }
         return await this.userRepository.remove(id)
     }
 
     async save(user) {
         if (!user) {
-            throw new userNotDefinedError()
+            throw new UserNotDefinedError()
         }
         return await this.userRepository.save(user)
     }

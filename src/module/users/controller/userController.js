@@ -51,7 +51,6 @@ module.exports = class Controller extends AbstractController {
             const user = await this.userService.getById(id)
             res.render('users/view/view.html', { user })
         } catch (e) {
-            console.log("entre")
             req.session.errors = [e.message]
             res.redirect('/user')
         }
@@ -70,7 +69,7 @@ module.exports = class Controller extends AbstractController {
             const savedUser = await this.userService.save(user)
 
             if (user.id) {
-                req.session.messages = [`El usuario con id ${user.id} se actualizo con exito`]
+                req.session.messages = [`El usuario con id ${user.id} se actualizó con éxito`]
             } else {
                 req.session.messages = [`El usuario con id ${savedUser.id} se creó con éxito`]
             }
@@ -87,6 +86,13 @@ module.exports = class Controller extends AbstractController {
     create(req, res) {
         res.render("users/view/form.html")
     }
+
+
+    /**
+     * 
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res 
+     */
 
     async edit(req, res) {
         const { id } = req.params
@@ -137,7 +143,7 @@ module.exports = class Controller extends AbstractController {
             const user = await this.userService.remove(id)
             req.session.messages = [`El usuario con id ${id} se ha eliminado`]
         } catch (e) {
-            req.session.errors = [`No se pudo eliminar el auto con id ${id}`]
+            req.session.errors = [`No se pudo eliminar el usuario con id ${id}`]
         }
         res.redirect('/user')
     }

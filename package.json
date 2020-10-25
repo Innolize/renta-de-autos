@@ -23,6 +23,7 @@
   "scripts": {
     "dev": "nodemon -e html,js src/app.js --verbose",
     "test": "jest --coverage",
-    "test:dev": "jest --watch"
+    "test:dev": "jest --watch",
+    "test:users": "jest --watchAll src/module/users"
   }
 }
