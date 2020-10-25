@@ -21,6 +21,7 @@ module.exports = class CarController extends AbstractController {
         app.get(`${ROUTE}/form`, this.form.bind(this))
         app.get(`${ROUTE}/view/:id`, this.view.bind(this))
         app.get(`${ROUTE}/edit/:id`, this.edit.bind(this))
+        
         //post
         app.post(`${ROUTE}/save`, this.uploadMiddleware.single('imagen'), this.save.bind(this))
         app.post(`${ROUTE}/remove/:id`, this.remove.bind(this))
@@ -52,20 +53,16 @@ module.exports = class CarController extends AbstractController {
                 car.imagen = `/uploads/cars/${filename}`
             }
             const savedCar = await this.carService.save(car)
-
             if (car.id) {
                 req.session.messages = [`El auto con id ${car.id} se actualizo con exito`]
             } else {
                 req.session.messages = [`Se creo nuevo auto con id ${savedCar.id}`]
             }
             res.redirect("/car")
-
         } catch (e) {
             req.session.errors = [e.message]
             res.redirect("/car")
         }
-
-
     }
 
     /**

@@ -1,4 +1,5 @@
 const AbstractController = require('../../abstractController')
+const UserIdNotDefinedError = require('./error/userIdNotDefinedError')
 const { fromFormToEntity } = require('../mapper/userMapper')
 
 module.exports = class Controller extends AbstractController {
@@ -13,8 +14,10 @@ module.exports = class Controller extends AbstractController {
         //get
         app.get(`${ROUTE}`, this.index.bind(this))
         app.get(`${ROUTE}/view/:id`, this.view.bind(this))
-        app.get(`${ROUTE}/form`, this.form.bind(this))
+        app.get(`${ROUTE}/form`, this.create.bind(this))
         app.get(`${ROUTE}/edit/:id`, this.edit.bind(this))
+        app.get(`${ROUTE}/remove/:id`, this.removeConfirmation.bind(this))
+        //post
         app.post(`${ROUTE}/remove/:id`, this.remove.bind(this))
         app.post(`${ROUTE}/save`, this.uploadMiddleware.none(), this.save.bind(this))
     }
@@ -27,8 +30,10 @@ module.exports = class Controller extends AbstractController {
 
     async index(req, res) {
         const users = await this.userService.getData()
-        console.log(users)
-        res.render('users/view/index.html', { users })
+        const { messages, errors } = req.session
+        res.render('users/view/index.html', { users, messages, errors })
+        req.session.messages = []
+        req.session.errors = []
     }
 
     /**
@@ -39,9 +44,17 @@ module.exports = class Controller extends AbstractController {
 
     async view(req, res) {
         const { id } = req.params
-        const user = await this.userService.getById(id)
-        console.log(user)
-        res.render('users/view/view.html', { user })
+        if (!id) {
+            throw new UserIdNotDefinedError()
+        }
+        try {
+            const user = await this.userService.getById(id)
+            res.render('users/view/view.html', { user })
+        } catch (e) {
+            console.log("entre")
+            req.session.errors = [e.message]
+            res.redirect('/user')
+        }
     }
 
     /**
@@ -51,22 +64,42 @@ module.exports = class Controller extends AbstractController {
      */
 
     async save(req, res) {
-        const formData = req.body
-        const user = fromFormToEntity(formData)
-        const savedUser = await this.userService.save(user)
-        console.log(savedUser)
-        res.redirect('/user')
+        try {
+            const formData = req.body
+            const user = fromFormToEntity(formData)
+            const savedUser = await this.userService.save(user)
+
+            if (user.id) {
+                req.session.messages = [`El usuario con id ${user.id} se actualizo con exito`]
+            } else {
+                req.session.messages = [`El usuario con id ${savedUser.id} se creó con éxito`]
+            }
+            res.redirect('/user')
+
+        } catch (e) {
+            req.session.errors = [e.message]
+            res.redirect('/user')
+        }
+
+
     }
 
-    form(req, res) {
+    create(req, res) {
         res.render("users/view/form.html")
     }
 
     async edit(req, res) {
         const { id } = req.params
-        const user = await this.userService.getById(id)
-
-        res.render("users/view/form.html", { user })
+        if (!id) {
+            throw new UserIdNotDefinedError()
+        }
+        try {
+            const user = await this.userService.getById(id)
+            res.render("users/view/form.html", { user })
+        } catch (e) {
+            req.session.errors = [e.message]
+            res.redirect('/user')
+        }
     }
 
     /**
@@ -75,9 +108,37 @@ module.exports = class Controller extends AbstractController {
      * @param {import('express').Response} res 
      */
 
+    async removeConfirmation(req, res) {
+        const { id } = req.params
+        if (!id) {
+            throw new UserIdNotDefinedError()
+        }
+        try {
+            const user = await this.userService.getById(id)
+            res.render('users/view/delete.html', { user })
+        } catch (e) {
+            req.session.errors = [e.message]
+            res.redirect('/user')
+        }
+    }
+
+    /**
+    * 
+    * @param {import('express').Application} req 
+    * @param {import('express').Response} res 
+    */
+
     async remove(req, res) {
         const { id } = req.params
-        const user = await this.userService.remove(id)
+        if (!id) {
+            throw new UserIdNotDefinedError()
+        }
+        try {
+            const user = await this.userService.remove(id)
+            req.session.messages = [`El usuario con id ${id} se ha eliminado`]
+        } catch (e) {
+            req.session.errors = [`No se pudo eliminar el auto con id ${id}`]
+        }
         res.redirect('/user')
     }
 }
