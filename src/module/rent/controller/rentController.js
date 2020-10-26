@@ -16,6 +16,7 @@ module.exports = class RentController extends AbstractController {
     configureRoutes(app) {
         const ROUTE = this.ROUTE_BASE
         app.get(`${ROUTE}`, this.index.bind(this))
+        app.get(`${ROUTE}/form`, this.form.bind(this))
     }
 
     async index(req, res) {
@@ -24,5 +25,12 @@ module.exports = class RentController extends AbstractController {
         res.render("rent/view/index.html", { rents })
     }
 
+    async form(req, res) {
+        const users = await this.rentService.getUsersAvailable()
+        console.log(users)
+        // const cars = await this.rentService.getCarsAvailable()
+
+        // res.render("rent/view/form.html")
+    }
 
 }

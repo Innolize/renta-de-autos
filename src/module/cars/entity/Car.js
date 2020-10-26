@@ -1,5 +1,5 @@
 module.exports = class Car {
-    constructor({ id, marca, modelo, año, kilometraje, color, aireAcondicionado, pasajeros, cajaCambios, precio, imagen }) {
+    constructor({ id, marca, modelo, año, kilometraje, color, aireAcondicionado, pasajeros, cajaCambios, precio, imagen, disponible }) {
         this.id = id,
             this.marca = marca,
             this.modelo = modelo,
@@ -10,6 +10,7 @@ module.exports = class Car {
             this.pasajeros = pasajeros,
             this.cajaCambios = cajaCambios,
             this.precio = precio,
-            this.imagen = imagen
+            this.imagen = imagen,
+            this.disponible = disponible
     }
 }
