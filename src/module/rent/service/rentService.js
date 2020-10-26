@@ -13,7 +13,7 @@ module.exports = class RentService {
         return await this.rentRepository.getUsersAvailable()
     }
 
-    // async getCarsAvailable() {
-    //     return await this.rentRepository.getCarsAvailable()
-    // }
+    async getCarsAvailable() {
+        return await this.rentRepository.getCarsAvailable()
+    }
 }

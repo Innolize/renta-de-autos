@@ -103,8 +103,9 @@ const Rent = container.get('RentModel');
 
 
     const Usuarios = await User.bulkCreate([
-        { nombre: "Carlitos", apellido: "Test", tipoDocumento: "DNI", numeroDocumento: "35945234", nacionalidad: "Argentina", direccion: "direccionTest 352", telefono: 45674321, email: "test123@yahoo.com", nacimiento: "1990-05-05" }
+        { nombre: "Carlitos", apellido: "Test", tipoDocumento: "DNI", numeroDocumento: "35945234", nacionalidad: "Argentina", direccion: "direccionTest 352", telefono: 45674321, email: "test123@yahoo.com", nacimiento: "1990-05-05", disponible: true }
     ])
+
     const primeraRenta = Rent.build({
         rentaInicio: "2020-05-05",
         rentaTermina: "2020-05-09",
@@ -115,7 +116,7 @@ const Rent = container.get('RentModel');
         fk_auto: 2,
         fk_usuario: 1,
     })
-    // primeraRenta.setDataValue('autoRentado', 1)
+
     await primeraRenta.save()
     console.log(primeraRenta.toJSON())
 

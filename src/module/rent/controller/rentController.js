@@ -1,4 +1,5 @@
 const AbstractController = require('../../abstractController')
+const {fechaMinimaCalendariosDefault: fechaCalendarios} = require('../../../utility/fechaMinimaCalendarios')
 
 module.exports = class RentController extends AbstractController {
     constructor(uploadMiddleware, rentService) {
@@ -27,10 +28,10 @@ module.exports = class RentController extends AbstractController {
 
     async form(req, res) {
         const users = await this.rentService.getUsersAvailable()
-        console.log(users)
-        // const cars = await this.rentService.getCarsAvailable()
+        const cars = await this.rentService.getCarsAvailable()
 
-        // res.render("rent/view/form.html")
+
+        res.render("rent/view/form.html", { users, cars})
     }
 
 }

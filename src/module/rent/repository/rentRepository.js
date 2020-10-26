@@ -1,4 +1,6 @@
 const AbstractRentRepository = require('./abstractRentRepository')
+const { fromDbToEntity: userMapper } = require('../../users/mapper/userMapper')
+const { fromDbToEntity: carMapper } = require('../../cars/mapper/carMapper')
 
 module.exports = class RentRepository extends AbstractRentRepository {
 
@@ -25,7 +27,16 @@ module.exports = class RentRepository extends AbstractRentRepository {
                 disponible: true
             }
         })
-        return response.map(x => x.toJSON())
+        return response.map(x => userMapper(x))
+    }
+
+    async getCarsAvailable() {
+        const response = await this.carModel.findAll({
+            where: {
+                disponible: true
+            }
+        })
+        return response.map(x => carMapper(x))
     }
 
 }
