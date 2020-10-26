@@ -17,14 +17,19 @@ module.exports = class RentModel extends Model {
                     autoIncrement: true
                 },
                 rentaInicio: {
-                    type: DataTypes.DATE,
+                    type: DataTypes.DATEONLY,
                     allowNull: false,
                     field: "renta_inicia"
                 },
                 rentaTermina: {
-                    type: DataTypes.DATE,
+                    type: DataTypes.DATEONLY,
                     allowNull: false,
                     field: "renta_termina"
+                },
+                precioDia: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    field: "precio_por_dia"
                 },
                 precioTotal: {
                     type: DataTypes.INTEGER,
@@ -39,6 +44,14 @@ module.exports = class RentModel extends Model {
                 abonado: {
                     type: DataTypes.BOOLEAN,
                     allowNull: false
+                },
+                fk_auto: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false
+                },
+                fk_usuario: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false
                 }
             },
             {
@@ -52,9 +65,15 @@ module.exports = class RentModel extends Model {
     }
 
     static setupCarAssociation(CarModel) {
-        RentModel.belongsTo(CarModel, { foreignKey: "auto_rentado_id" })
+        RentModel.belongsTo(CarModel, {
+            as: "autoRentado",
+            foreignKey: "fk_auto"
+        })
     }
     static setupUserAssociation(UserModel) {
-        RentModel.belongsTo(UserModel, { foreignKey: "usuario_rentado_id" })
+        RentModel.belongsTo(UserModel, {
+            as: "usuarioRentado",
+            foreignKey: "fk_usuario"
+        })
     }
 }

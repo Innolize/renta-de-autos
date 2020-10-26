@@ -18,8 +18,10 @@ module.exports = class RentController extends AbstractController {
         app.get(`${ROUTE}`, this.index.bind(this))
     }
 
-    index(req, res) {
-        res.render("rent/view/index/html")
+    async index(req, res) {
+        const rents = await this.rentService.getData()
+        console.log(rents)
+        res.render("rent/view/index.html", { rents })
     }
 
 
