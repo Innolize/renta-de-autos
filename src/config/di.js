@@ -7,6 +7,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 const { CarController, CarService, CarRepository, CarModel } = require('../module/cars/module')
 const { UserController, UserModel, UserRepository, UserService } = require('../module/users/module')
+const { RentController, RentRepository, RentService, RentModel } = require('../module/rent/module')
 
 /**
  * 
@@ -62,6 +63,13 @@ function configureUserModel(container) {
     return UserModel
 }
 
+function configureRentModel(container) {
+    RentModel.setup(container.get("Sequelize"))
+    RentModel.setupCarAssociation(container.get('CarModel'))
+    RentModel.setupUserAssociation(container.get('UserModel'))
+    return RentModel
+}
+
 function addCarModuleDefinitions(container) {
     container.addDefinitions({
         CarController: object(CarController).construct(get('Multer'), get('CarService')),
@@ -82,7 +90,20 @@ function addUserModuleDefinitions(container) {
         UserService: object(UserService).construct(get('UserRepository')),
         UserRepository: object(UserRepository).construct(get('UserModel')),
         UserModel: factory(configureUserModel)
+    })
+}
 
+/**
+ * 
+ * @param {import('rsdi').default} container 
+ */
+
+function addRentModuleDefinitions(container) {
+    container.addDefinitions({
+        RentController: object(RentController).construct(get('Multer'), get('RentService')),
+        RentService: object(RentService).construct(get("RentRepository")),
+        RentRepository: object(RentRepository).construct(get('RentModel')),
+        RentModel: factory(configureRentModel)
     })
 }
 
@@ -117,6 +138,7 @@ module.exports = function configureDI() {
     const container = new DIContainer()
     addCarModuleDefinitions(container)
     addUserModuleDefinitions(container)
+    addRentModuleDefinitions(container)
     addCommonDefinitions(container)
     return container
 }
