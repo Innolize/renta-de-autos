@@ -2,8 +2,8 @@
 
 {% block body %}
 <div class="container mt-3">
-    <form action="/user/save" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="id" value={{user.id}}>
+    <form action="/rent/save" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value={{rent.id}}>
 
         <div class="field">
             <label class="label">
@@ -11,7 +11,7 @@
             </label>
             <div class="control">
                 <div class="select">
-                    <select name="user-selected">
+                    <select name="usuario-seleccionado">
                         {%for user in users%}
                         <option value="{{user.id}}">{{user.nombre}} {{user.apellido}}</option>
                         {% endfor %}
@@ -26,7 +26,7 @@
             </label>
             <div class="control">
                 <div class="select">
-                    <select name="car-selected">
+                    <select name="auto-seleccionado">
                         {%for car in cars%}
                         <option value="{{car.id}}">{{car.marca}} {{car.modelo}} (${{car.precio}} x dia)</option>
                         {% endfor %}
@@ -53,7 +53,7 @@
             <label class="label">Medio de pago</label>
             <div class="control">
                 <div class="select">
-                    <select name="medio-pago">
+                    <select name="forma-pago">
                         <option value="efectivo">Efectivo</option>
                         <option value="tarjeta">Tarjeta</option>
                     </select>

@@ -16,4 +16,8 @@ module.exports = class RentService {
     async getCarsAvailable() {
         return await this.rentRepository.getCarsAvailable()
     }
+
+    async save(rent) {
+        return await this.rentRepository.save(rent)
+    }
 }

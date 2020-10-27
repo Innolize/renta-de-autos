@@ -102,7 +102,7 @@ function addRentModuleDefinitions(container) {
     container.addDefinitions({
         RentController: object(RentController).construct(get('Multer'), get('RentService')),
         RentService: object(RentService).construct(get("RentRepository")),
-        RentRepository: object(RentRepository).construct(get('CarModel'),get('UserModel'),get('RentModel')),
+        RentRepository: object(RentRepository).construct(get('CarModel'), get('UserModel'), get('RentModel'), get('Sequelize')),
         RentModel: factory(configureRentModel)
     })
 }

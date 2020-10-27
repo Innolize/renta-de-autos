@@ -7,7 +7,7 @@ module.exports = class Rent {
         this.precioTotal = precioTotal
         this.formaPago = formaPago
         this.abonado = abonado
-        this.autoRentado = autoRentado
-        this.usuarioRentado = usuarioRentado
+        this.idAutoRentado = autoRentado
+        this.idUsuarioRentado = usuarioRentado
     }
 }
