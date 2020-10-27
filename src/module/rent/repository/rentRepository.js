@@ -3,7 +3,7 @@ const { fromDbToEntity: userMapper } = require('../../users/mapper/userMapper')
 const { fromDbToEntity: carMapper } = require('../../cars/mapper/carMapper')
 const { fromDbToEntity: rentMapper } = require('../mapper/rentMapper')
 const calcularPrecioTotal = require('../../../utility/calcularPrecioTotal')
-const { Sequelize } = require('sequelize')
+const { Sequelize, Op } = require('sequelize')
 
 module.exports = class RentRepository extends AbstractRentRepository {
 
@@ -24,25 +24,17 @@ module.exports = class RentRepository extends AbstractRentRepository {
     }
 
     async getData() {
-        const response = await this.rentModel.findAll()
+        const response = await this.rentModel.findAll({ include: ["autoRentado", "usuarioRentado"] })
         return response.map(x => x.toJSON())
     }
 
     async getUsersAvailable() {
-        const response = await this.userModel.findAll({
-            where: {
-                disponible: true
-            }
-        })
+        const response = await this.userModel.findAll()
         return response.map(x => userMapper(x))
     }
 
     async getCarsAvailable() {
-        const response = await this.carModel.findAll({
-            where: {
-                disponible: true
-            }
-        })
+        const response = await this.carModel.findAll()
         return response.map(x => carMapper(x))
     }
 
@@ -54,18 +46,44 @@ module.exports = class RentRepository extends AbstractRentRepository {
     async save(rent) {
         let newRent
 
-
-
         const car = await this.carModel.findByPk(rent.idAutoRentado)
+        if (!car) {
+            throw new Error("Auto rentado no existe")
+        }
         rent.precioDia = car.precio
         rent.precioTotal = calcularPrecioTotal(rent.rentaInicio, rent.rentaTermina, car.precio)
-        if (!car) {
-            throw new error("auto rentado no existe")
-        }
+
         const user = await this.userModel.findByPk(rent.idUsuarioRentado)
         if (!user) {
-            throw new error("usuario rentado no existe")
+            throw new Error("Usuario rentado no existe")
         }
+
+        let rentasSuperpuestas = await this.rentModel.findAll({
+            where: {
+                [Op.or]: {
+                    fk_auto: {
+                        [Op.like]: rent.idAutoRentado
+                    },
+                    fk_usuario: {
+                        [Op.like]: rent.idUsuarioRentado
+                    }
+                },
+                rentaInicio: {
+                    [Op.lt]: rent.rentaTermina
+                },
+                rentaTermina: {
+                    [Op.gt]: rent.rentaInicio
+                }
+            }
+        })
+        let test = rentasSuperpuestas.map(x => rentMapper(x))
+        console.log(test)
+
+        if (test.length > 0) {
+            const ids = rentasSuperpuestas.map(renta => renta.id)
+            throw new Error(`No se pudo crear, conflicto de fechas con renta/s de id ${ids}`)
+        }
+
 
         const buildOptions = { isNewRecord: !rent.id }
         newRent = this.rentModel.build(rent, buildOptions)
@@ -73,8 +91,6 @@ module.exports = class RentRepository extends AbstractRentRepository {
         newRent.setDataValue('fk_usuario', rent.idUsuarioRentado)
         newRent = await newRent.save()
         return rentMapper(newRent)
-
-
     }
 
 }

@@ -35,10 +35,11 @@
                 <td>{{rent.id}}</td>
                 <td>${{rent.precioTotal}}</td>
                 <td>
-                    <a href="user/view/{{rent.fk_usuario}}">{{rent.fk_usuario}}</a>
+                    <a href="user/view/{{rent.fk_usuario}}">{{rent.usuarioRentado.apellido}},
+                        {{rent.usuarioRentado.nombre}}</a>
                 </td>
                 <td>
-                    <a href="car/view/{{rent.fk_auto}}">{{rent.fk_auto}}</a>
+                    <a href="car/view/{{rent.fk_auto}}">{{rent.autoRentado.marca}}, {{rent.autoRentado.modelo}}</a>
                 </td>
                 <td>
                     {{rent.rentaInicio}}
