@@ -27,6 +27,7 @@
                 <th>ID Vehiculo</th>
                 <th>Desde</th>
                 <th>Hasta</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -46,6 +47,20 @@
                 </td>
                 <td>
                     {{rent.rentaTermina}}
+                </td>
+                <td>
+                    <div class="is-flex is-justify-content-center">
+                        <a class="button is-success" href="rent/view/{{rent.id}}">
+                            <i class="far fa-eye"></i>
+                        </a>
+                        <a class="button is-info" href="rent/edit/{{rent.id}}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <form action="rent/remove/{{rent.id}}" method="POST">
+
+                            <button type="submit" class="button is-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             {% endfor %}

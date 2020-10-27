@@ -93,4 +93,15 @@ module.exports = class RentRepository extends AbstractRentRepository {
         return rentMapper(newRent)
     }
 
+    async remove(id) {
+        const response = await this.rentModel.destroy({
+            where: {
+                id: id
+            }
+        })
+        return Boolean(response)
+    }
+
+
+
 }

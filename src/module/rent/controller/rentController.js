@@ -19,6 +19,7 @@ module.exports = class RentController extends AbstractController {
         app.get(`${ROUTE}`, this.index.bind(this))
         app.get(`${ROUTE}/form`, this.form.bind(this))
         app.post(`${ROUTE}/save`, this.uploadMiddleware.none(), this.save.bind(this))
+        app.post(`${ROUTE}/remove/:id`, this.remove.bind(this))
     }
 
     async index(req, res) {
@@ -45,12 +46,26 @@ module.exports = class RentController extends AbstractController {
 
             const savedRent = await this.rentService.save(rent)
 
-            res.redirect('rent/view/form.html')
+            res.redirect('/rent')
 
         } catch (e) {
             console.log(e)
         }
-
     }
 
+    /**
+     * 
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res 
+     */
+
+    async remove(req, res) {
+        const { id } = req.params
+        const rentDeleted = await this.rentService.remove(id)
+        if (rentDeleted) {
+            console.log('Se elimino con exito')
+        }
+
+        res.redirect('/rent')
+    }
 }
