@@ -3,7 +3,7 @@
 {% block body %}
 <div class="container">
     <a class="button mt-3" href="/rent/form">Nuevo renta</a>
-    <h1 class='is-size-1 has-text-centered'>Rentas activas</h1>
+    <h1 class='is-size-1 has-text-centered'>Tabla de rentas</h1>
 
     {% for message in messages %}
     <div class="notification is-success has-text-centered">
@@ -23,8 +23,8 @@
                 <th>ID</th>
                 <th>Precio total</th>
 
-                <th>ID Usuario</th>
-                <th>ID Vehiculo</th>
+                <th>Usuario</th>
+                <th>Vehiculo</th>
                 <th>Desde</th>
                 <th>Hasta</th>
                 <th>Acciones</th>

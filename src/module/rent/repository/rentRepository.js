@@ -60,6 +60,9 @@ module.exports = class RentRepository extends AbstractRentRepository {
 
         let rentasSuperpuestas = await this.rentModel.findAll({
             where: {
+                [Op.not]: {
+                    id: rent.id
+                },
                 [Op.or]: {
                     fk_auto: {
                         [Op.like]: rent.idAutoRentado
@@ -77,7 +80,6 @@ module.exports = class RentRepository extends AbstractRentRepository {
             }
         })
         let test = rentasSuperpuestas.map(x => rentMapper(x))
-        console.log(test)
 
         if (test.length > 0) {
             const ids = rentasSuperpuestas.map(renta => renta.id)

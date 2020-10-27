@@ -2,6 +2,13 @@ const AbstractController = require('../../abstractController')
 const { fromFormToEntity } = require('../mapper/rentMapper')
 
 module.exports = class RentController extends AbstractController {
+
+    /**
+     * 
+     * @param {import('multer').Multer} uploadMiddleware 
+     * @param {import('../service/rentService')} rentService 
+     */
+
     constructor(uploadMiddleware, rentService) {
         super()
         this.ROUTE_BASE = "/rent"
@@ -19,6 +26,7 @@ module.exports = class RentController extends AbstractController {
         app.get(`${ROUTE}`, this.index.bind(this))
         app.get(`${ROUTE}/form`, this.form.bind(this))
         app.get(`${ROUTE}/view/:id`, this.view.bind(this))
+        app.get(`${ROUTE}/edit/:id`, this.edit.bind(this))
         app.post(`${ROUTE}/save`, this.uploadMiddleware.none(), this.save.bind(this))
         app.post(`${ROUTE}/remove/:id`, this.remove.bind(this))
 
@@ -70,6 +78,21 @@ module.exports = class RentController extends AbstractController {
      * @param {import('express').Request} req 
      * @param {import('express').Response} res 
      */
+
+    async edit(req, res) {
+        const { id } = req.params
+        const users = await this.rentService.getUsersAvailable()
+        const cars = await this.rentService.getCarsAvailable()
+        const rent = await this.rentService.getSelectedRent(id)
+
+        res.render('rent/view/form.html', { rent, users, cars })
+    }
+
+    /**
+    * 
+    * @param {import('express').Request} req 
+    * @param {import('express').Response} res 
+    */
 
     async remove(req, res) {
         const { id } = req.params

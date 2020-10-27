@@ -13,7 +13,7 @@
                 <div class="select">
                     <select name="usuario-seleccionado">
                         {%for user in users%}
-                        <option value="{{user.id}}">{{user.nombre}} {{user.apellido}}</option>
+                        <option value="{{user.id}}" {{'selected' if rent.fk_usuario == user.id}} >{{user.nombre}} {{user.apellido}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="select">
                     <select name="auto-seleccionado">
                         {%for car in cars%}
-                        <option value="{{car.id}}">{{car.marca}} {{car.modelo}} (${{car.precio}} x dia)</option>
+                        <option value="{{car.id}}" {{'selected' if rent.fk_auto == car.id}}>{{car.marca}} {{car.modelo}} (${{car.precio}} x dia)</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -38,14 +38,14 @@
         <div class="field">
             <label class="label">Desde</label>
             <div class="control">
-                <input type="date" class="input" name='renta-inicio'>
+                <input type="date" class="input" name='renta-inicio' value={{rent.rentaInicio}}>
             </div>
         </div>
 
         <div class="field">
             <label class="label">Hasta</label>
             <div class="control">
-                <input type="date" class="input" name='renta-termina'>
+                <input type="date" class="input" name='renta-termina' value={{rent.rentaTermina}}>
             </div>
         </div>
 
@@ -54,8 +54,8 @@
             <div class="control">
                 <div class="select">
                     <select name="forma-pago">
-                        <option value="efectivo">Efectivo</option>
-                        <option value="tarjeta">Tarjeta</option>
+                        <option value="efectivo" {{'selected' if rent.formaPago == "efectivo"}} >Efectivo</option>
+                        <option value="tarjeta" {{'selected' if rent.formaPago == "tarjeta"}} >Tarjeta</option>
                     </select>
                 </div>
             </div>
@@ -66,8 +66,8 @@
             <div class="control">
                 <div class="select">
                     <select name="abonado">
-                        <option value="true">Si</option>
-                        <option value="false">No</option>
+                        <option value="true" {{'selected' if rent.abonado == true}} >Si</option>
+                        <option value="false" {{'selected' if rent.abonado == false}} >No</option>
                     </select>
                 </div>
             </div>
