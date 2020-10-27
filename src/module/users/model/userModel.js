@@ -50,11 +50,6 @@ module.exports = class UserModel extends Model {
                     type: DataTypes.STRING,
                     allowNull: false
                 },
-                disponible: {
-                    type: DataTypes.BOOLEAN,
-                    allowNull: false,
-                    defaultValue: true
-                },
                 creado: {
                     type: DataTypes.DATE,
                     defaultValue: Sequelize.NOW

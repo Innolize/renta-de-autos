@@ -1,5 +1,5 @@
 module.exports = class User {
-    constructor({ id, nombre, apellido, tipoDocumento, numeroDocumento, nacionalidad, direccion, telefono, email, nacimiento, disponible }) {
+    constructor({ id, nombre, apellido, tipoDocumento, numeroDocumento, nacionalidad, direccion, telefono, email, nacimiento}) {
         this.id = id,
             this.nombre = nombre,
             this.apellido = apellido,
@@ -9,7 +9,6 @@ module.exports = class User {
             this.direccion = direccion,
             this.telefono = telefono,
             this.email = email,
-            this.nacimiento = nacimiento,
-            this.disponible = disponible
+            this.nacimiento = nacimiento
     }
 }

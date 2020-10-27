@@ -103,7 +103,7 @@ const Rent = container.get('RentModel');
 
 
     const Usuarios = await User.bulkCreate([
-        { nombre: "Carlitos", apellido: "Test", tipoDocumento: "DNI", numeroDocumento: "35945234", nacionalidad: "Argentina", direccion: "direccionTest 352", telefono: 45674321, email: "test123@yahoo.com", nacimiento: "1990-05-05", disponible: true }
+        { nombre: "Carlitos", apellido: "Test", tipoDocumento: "DNI", numeroDocumento: "35945234", nacionalidad: "Argentina", direccion: "direccionTest 352", telefono: 45674321, email: "test123@yahoo.com", nacimiento: "1990-05-05"}
     ])
 
     // const primeraRenta = Rent.build({

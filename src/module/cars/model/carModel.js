@@ -56,13 +56,7 @@ module.exports = class CarModel extends Model {
                 imagen: {
                     type: DataTypes.STRING,
                     allowNull: true
-                },
-                disponible: {
-                    type: DataTypes.BOOLEAN,
-                    allowNull: false,
-                    defaultValue: true
                 }
-
             },
             {
                 sequelize: sequelizeInstance,
