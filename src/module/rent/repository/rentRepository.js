@@ -102,6 +102,10 @@ module.exports = class RentRepository extends AbstractRentRepository {
         return Boolean(response)
     }
 
+    async getSelectedRent(id) {
+        const response = await this.rentModel.findByPk(id, { include: ["autoRentado", "usuarioRentado"] })
+        return response.toJSON()
+    }
 
 
 }

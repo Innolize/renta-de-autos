@@ -21,8 +21,12 @@ module.exports = class RentService {
         return await this.rentRepository.save(rent)
     }
 
-    async remove(id){
+    async remove(id) {
         return await this.rentRepository.remove(id)
+    }
+
+    async getSelectedRent(id) {
+        return await this.rentRepository.getSelectedRent(id)
     }
 
 }
