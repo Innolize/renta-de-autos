@@ -24,7 +24,8 @@ module.exports = class RentRepository extends AbstractRentRepository {
     }
 
     async getData() {
-        const response = await this.rentModel.findAll({ include: ["autoRentado", "usuarioRentado"] })
+        const response = await this.rentModel.findAll({ include: ["AutoRentado", "UsuarioRentado"] })
+        console.log(response)
         return response.map(x => x.toJSON())
     }
 
@@ -46,14 +47,14 @@ module.exports = class RentRepository extends AbstractRentRepository {
     async save(rent) {
         let newRent
 
-        const car = await this.carModel.findByPk(rent.idAutoRentado)
+        const car = await this.carModel.findByPk(rent.AutoRentado.id)
         if (!car) {
             throw new Error("Auto rentado no existe")
         }
         rent.precioDia = car.precio
         rent.precioTotal = calcularPrecioTotal(rent.rentaInicio, rent.rentaTermina, car.precio)
 
-        const user = await this.userModel.findByPk(rent.idUsuarioRentado)
+        const user = await this.userModel.findByPk(rent.UsuarioRentado.id)
         if (!user) {
             throw new Error("Usuario rentado no existe")
         }
@@ -64,11 +65,11 @@ module.exports = class RentRepository extends AbstractRentRepository {
                     id: rent.id
                 },
                 [Op.or]: {
-                    fk_auto: {
-                        [Op.like]: rent.idAutoRentado
+                    id_auto: {
+                        [Op.like]: rent.AutoRentado.id
                     },
-                    fk_usuario: {
-                        [Op.like]: rent.idUsuarioRentado
+                    id_usuario: {
+                        [Op.like]: rent.UsuarioRentado.id
                     }
                 },
                 rentaInicio: {
@@ -87,10 +88,10 @@ module.exports = class RentRepository extends AbstractRentRepository {
         }
 
 
-        const buildOptions = { isNewRecord: !rent.id }
+        const buildOptions = { isNewRecord: !rent.id, include: ["AutoRentado", "UsuarioRentado"] }
         newRent = this.rentModel.build(rent, buildOptions)
-        newRent.setDataValue('fk_auto', rent.idAutoRentado)
-        newRent.setDataValue('fk_usuario', rent.idUsuarioRentado)
+        newRent.setDataValue("id_auto", rent.AutoRentado.id)
+        newRent.setDataValue('id_usuario', rent.UsuarioRentado.id)
         newRent = await newRent.save()
         return rentMapper(newRent)
     }
@@ -105,7 +106,7 @@ module.exports = class RentRepository extends AbstractRentRepository {
     }
 
     async getSelectedRent(id) {
-        const response = await this.rentModel.findByPk(id, { include: ["autoRentado", "usuarioRentado"] })
+        const response = await this.rentModel.findByPk(id, { include: ["AutoRentado", "UsuarioRentado"] })
         return response.toJSON()
     }
 

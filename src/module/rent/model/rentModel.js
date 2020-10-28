@@ -44,14 +44,6 @@ module.exports = class RentModel extends Model {
                 abonado: {
                     type: DataTypes.BOOLEAN,
                     allowNull: false
-                },
-                fk_auto: {
-                    type: DataTypes.INTEGER,
-                    allowNull: false
-                },
-                fk_usuario: {
-                    type: DataTypes.INTEGER,
-                    allowNull: false
                 }
             },
             {
@@ -66,14 +58,14 @@ module.exports = class RentModel extends Model {
 
     static setupCarAssociation(CarModel) {
         RentModel.belongsTo(CarModel, {
-            as: "autoRentado",
-            foreignKey: "fk_auto"
+            as: "AutoRentado",
+            foreignKey: "id_auto"
         })
     }
     static setupUserAssociation(UserModel) {
         RentModel.belongsTo(UserModel, {
-            as: "usuarioRentado",
-            foreignKey: "fk_usuario"
+            as: "UsuarioRentado",
+            foreignKey: "id_usuario"
         })
     }
 }

@@ -7,8 +7,8 @@
             <tr>
                 <td class="has-text-weight-bold">Usuario:</td>
                 <td class="is-capitalized">
-                    <a href="/user/view/{{rent.usuarioRentado.id}}">
-                        {{rent.usuarioRentado.nombre}}, {{rent.usuarioRentado.apellido}}
+                    <a href="/user/view/{{rent.UsuarioRentado.id}}">
+                        {{rent.UsuarioRentado.nombre}}, {{rent.UsuarioRentado.apellido}}
                     </a>
                 </td>
             </tr>
@@ -16,8 +16,8 @@
                 <td class="has-text-weight-bold">Vehiculo:</td>
 
                 <td class="is-capitalized">
-                    <a href="/car/view/{{rent.autoRentado.id}}">
-                    {{rent.autoRentado.marca}}, {{rent.autoRentado.modelo}}
+                    <a href="/car/view/{{rent.AutoRentado.id}}">
+                        {{rent.AutoRentado.marca}}, {{rent.AutoRentado.modelo}}
                     </a>
                 </td>
 
@@ -48,11 +48,11 @@
             </tr>
             <tr>
                 <td class="has-text-weight-bold">Id vehiculo:</td>
-                <td class="is-capitalized">{{rent.fk_auto}}</td>
+                <td class="is-capitalized">{{rent.AutoRentado.id}}</td>
             </tr>
             <tr>
                 <td class="has-text-weight-bold">Id usuario:</td>
-                <td class="is-capitalized">{{rent.fk_usuario}}</td>
+                <td class="is-capitalized">{{rent.UsuarioRentado.id}}</td>
             </tr>
             <tr>
                 <td>

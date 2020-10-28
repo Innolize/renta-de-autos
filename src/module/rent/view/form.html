@@ -13,7 +13,7 @@
                 <div class="select">
                     <select name="usuario-seleccionado">
                         {%for user in users%}
-                        <option value="{{user.id}}" {{'selected' if rent.fk_usuario == user.id}} >{{user.nombre}} {{user.apellido}}</option>
+                        <option value="{{user.id}}" {{'selected' if rent.UsuarioRentado.id == user.id}} >{{user.nombre}} {{user.apellido}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="select">
                     <select name="auto-seleccionado">
                         {%for car in cars%}
-                        <option value="{{car.id}}" {{'selected' if rent.fk_auto == car.id}}>{{car.marca}} {{car.modelo}} (${{car.precio}} x dia)</option>
+                        <option value="{{car.id}}" {{'selected' if rent.AutoRentado.id == car.id}}>{{car.marca}} {{car.modelo}} (${{car.precio}} x dia)</option>
                         {% endfor %}
                     </select>
                 </div>

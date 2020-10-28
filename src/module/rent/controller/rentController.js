@@ -34,6 +34,7 @@ module.exports = class RentController extends AbstractController {
 
     async index(req, res) {
         const rents = await this.rentService.getData()
+        console.log(rents)
         res.render("rent/view/index.html", { rents })
     }
 
