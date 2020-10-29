@@ -140,8 +140,7 @@ module.exports = class RentController extends AbstractController {
                 return
             }
 
-            const cars = await this.rentService.getData()
-
+            const cars = await this.carService.getData()
             if (cars.length === 0) {
                 req.session.errors = [`No se puede editar una renta sin vehiculos en la base de datos`]
                 res.redirect('/rent')

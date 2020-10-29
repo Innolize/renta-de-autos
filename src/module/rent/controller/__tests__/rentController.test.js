@@ -13,11 +13,17 @@ const uploadMiddleware = {
 
 const rentService = {
     getData: jest.fn(() => Promise.resolve([])),
-    getUsersAvailable: jest.fn(() => Promise.resolve([1])),
-    getCarsAvailable: jest.fn(() => Promise.resolve([1])),
+
     save: jest.fn(() => Promise.resolve({ id: 5 })),
     remove: jest.fn(() => Promise.resolve(true)),
     getSelectedRent: jest.fn(() => Promise.resolve([1])),
+}
+
+const carService = {
+    getData: jest.fn(() => Promise.resolve([1])),
+}
+const userService = {
+    getData: jest.fn(() => Promise.resolve([1])),
 }
 
 const sessionMock = {}
@@ -25,7 +31,7 @@ const redirectMock = jest.fn()
 const renderMock = jest.fn()
 
 
-const controller = new RentController(uploadMiddleware, rentService)
+const controller = new RentController(uploadMiddleware, rentService, carService, userService)
 
 test('Configure routes llama a ', () => {
     const app = {
@@ -59,32 +65,32 @@ test('renderea form con users y cars', async () => {
 
     await controller.form({}, { render: renderMock })
 
-    expect(rentService.getUsersAvailable).toHaveBeenCalledTimes(1)
-    expect(rentService.getCarsAvailable).toHaveBeenCalledTimes(1)
+    expect(userService.getData).toHaveBeenCalledTimes(1)
+    expect(carService.getData).toHaveBeenCalledTimes(1)
     expect(renderMock).toHaveBeenCalledTimes(1)
     expect(renderMock).toHaveBeenCalledWith('rent/view/form.html', { users: [1], cars: [1] })
 })
 
 test('form al no tener usuarios devuelve error en session y redirecciona a /rent', async () => {
-    rentService.getUsersAvailable.mockImplementationOnce(() => Promise.resolve([]))
+    userService.getData.mockImplementationOnce(() => Promise.resolve([]))
     const sessionMock = {}
     const redirectMock = jest.fn()
     const renderMock = jest.fn()
 
     await controller.form({ session: sessionMock }, { redirect: redirectMock, render: renderMock })
 
-    expect(rentService.getUsersAvailable).toHaveBeenCalledTimes(1)
+    expect(userService.getData).toHaveBeenCalledTimes(1)
     expect(redirectMock).toHaveBeenCalledTimes(1)
     expect(renderMock).toHaveBeenCalledTimes(0)
     expect(sessionMock).toEqual({ errors: [`No se puede crear una renta sin usuarios en la base de datos`] })
 })
 
 test('form al no tener vehiculos devuelve error en session y redirecciona a /rent', async () => {
-    rentService.getCarsAvailable.mockImplementationOnce(() => Promise.resolve([]))
+    carService.getData.mockImplementationOnce(() => Promise.resolve([]))
 
     await controller.form({ session: sessionMock }, { redirect: redirectMock, render: renderMock })
 
-    expect(rentService.getUsersAvailable).toHaveBeenCalledTimes(1)
+    expect(userService.getData).toHaveBeenCalledTimes(1)
     expect(redirectMock).toHaveBeenCalledTimes(1)
     expect(renderMock).toHaveBeenCalledTimes(0)
     expect(sessionMock).toEqual({ errors: [`No se puede crear una renta sin vehiculos en la base de datos`] })
@@ -136,32 +142,30 @@ test('edit devuelve error al no pasarle id en parametros ', async () => {
 })
 
 test('edit renderea form con rent, users y cars ', async () => {
-    rentService.getUsersAvailable.mockImplementationOnce(() => Promise.resolve([1]))
-    rentService.getCarsAvailable.mockImplementationOnce(() => Promise.resolve([1]))
+    userService.getData.mockImplementationOnce(() => Promise.resolve([1]))
+    carService.getData.mockImplementationOnce(() => Promise.resolve([1]))
     await controller.edit({ params: { id: 1 }, session: sessionMock }, { redirect: redirectMock, render: renderMock })
-    expect(rentService.getUsersAvailable).toHaveBeenCalledTimes(1)
-    expect(rentService.getCarsAvailable).toHaveBeenCalledTimes(1)
+    expect(userService.getData).toHaveBeenCalledTimes(1)
+    expect(carService.getData).toHaveBeenCalledTimes(1)
     expect(rentService.getSelectedRent).toHaveBeenCalledTimes(1)
     expect(rentService.getSelectedRent).toHaveBeenCalledWith(1)
 })
 
 test('edit redirecciona a /rent con mensaje de error al no haber usuarios ', async () => {
-    rentService.getUsersAvailable.mockImplementationOnce(() => Promise.resolve([]))
+    userService.getData.mockImplementationOnce(() => Promise.resolve([]))
     await controller.edit({ params: { id: 1 }, session: sessionMock }, { redirect: redirectMock, render: renderMock })
-    expect(rentService.getUsersAvailable).toHaveBeenCalledTimes(1)
+    expect(userService.getData).toHaveBeenCalledTimes(1)
     expect(sessionMock.errors).toEqual([`No se puede editar una renta sin usuarios en la base de datos`])
-    expect(rentService.getCarsAvailable).toHaveBeenCalledTimes(0)
+    expect(carService.getData).toHaveBeenCalledTimes(0)
     expect(redirectMock).toHaveBeenCalledTimes(1)
     expect(redirectMock).toHaveBeenCalledWith('/rent')
-    // expect(rentService.getSelectedRent).toHaveBeenCalledTimes(0)
-    // expect(rentService.getSelectedRent).toHaveBeenCalledWith(0)
 })
 
 test('edit renderea form con rent, users y cars ', async () => {
-    rentService.getCarsAvailable.mockImplementationOnce(() => Promise.resolve([]))
+    carService.getData.mockImplementationOnce(() => Promise.resolve([]))
     await controller.edit({ params: { id: 1 }, session: sessionMock }, { redirect: redirectMock, render: renderMock })
-    expect(rentService.getUsersAvailable).toHaveBeenCalledTimes(1)
-    expect(rentService.getCarsAvailable).toHaveBeenCalledTimes(1)
+    expect(userService.getData).toHaveBeenCalledTimes(1)
+    expect(carService.getData).toHaveBeenCalledTimes(1)
     expect(sessionMock.errors).toEqual([`No se puede editar una renta sin vehiculos en la base de datos`])
 })
 
@@ -179,7 +183,7 @@ test('remove elimina con exito, guarda mensaje en session y redirecciona a /rent
 
 test('remove pone error en session cuando rentService.remove da error ', async () => {
     rentService.remove.mockImplementationOnce(() => Promise.reject(new Error('fail')))
-    await controller.remove({ params: { id: 5 }, session:sessionMock }, { redirect: redirectMock })
+    await controller.remove({ params: { id: 5 }, session: sessionMock }, { redirect: redirectMock })
     expect(rentService.remove).toHaveBeenCalledTimes(1)
     expect(sessionMock.errors).toEqual(['fail'])
     expect(redirectMock).toHaveBeenCalledTimes(1)
