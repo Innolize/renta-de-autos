@@ -1,9 +1,10 @@
 const AbstractRentRepository = require('./abstractRentRepository')
+const RentIdNotDefinedError = require('./error/rentIdNotDefinedError')
 const { fromDbToEntity: userMapper } = require('../../users/mapper/userMapper')
 const { fromDbToEntity: carMapper } = require('../../cars/mapper/carMapper')
 const { fromDbToEntity: rentMapper } = require('../mapper/rentMapper')
 const calcularPrecioTotal = require('../../../utility/calcularPrecioTotal')
-const { Sequelize, Op } = require('sequelize')
+const { Op } = require('sequelize')
 
 module.exports = class RentRepository extends AbstractRentRepository {
 
@@ -15,12 +16,11 @@ module.exports = class RentRepository extends AbstractRentRepository {
      * @param {import('../../users/model/userModel')} userModel
      */
 
-    constructor(carModel, userModel, rentModel, sequelizeInstance) {
+    constructor(carModel, userModel, rentModel) {
         super()
         this.carModel = carModel
         this.userModel = userModel
         this.rentModel = rentModel
-        this.sequelize = sequelizeInstance
     }
 
     async getData() {
@@ -48,10 +48,18 @@ module.exports = class RentRepository extends AbstractRentRepository {
             throw new Error("Usuario rentado no existe")
         }
 
+        // Si es una nueva renta, id es undefined y causa error
+        // porque no puede buscar id: undefined. 
+        // Esta validacion es un fix a ese problema
+
+        let idNotDefined = 0
+        let id = rent.id ? rent.id : idNotDefined
+
         let rentasSuperpuestas = await this.rentModel.findAll({
             where: {
+
                 [Op.not]: {
-                    id: rent.id
+                    id: id
                 },
                 [Op.or]: {
                     id_auto: {
@@ -69,7 +77,7 @@ module.exports = class RentRepository extends AbstractRentRepository {
                 }
             }
         })
-        let test = rentasSuperpuestas.map(x => toJSON(x))
+        let test = rentasSuperpuestas.map(x => x.toJSON())
 
         if (test.length > 0) {
             const ids = rentasSuperpuestas.map(renta => renta.id)
@@ -86,6 +94,9 @@ module.exports = class RentRepository extends AbstractRentRepository {
     }
 
     async remove(id) {
+        if (!id) {
+            throw new RentIdNotDefinedError()
+        }
         const response = await this.rentModel.destroy({
             where: {
                 id: id
@@ -95,6 +106,9 @@ module.exports = class RentRepository extends AbstractRentRepository {
     }
 
     async getSelectedRent(id) {
+        if (!id) {
+            throw new RentIdNotDefinedError()
+        }
         const response = await this.rentModel.findByPk(id, { include: ["AutoRentado", "UsuarioRentado"] })
         return response.toJSON()
     }
