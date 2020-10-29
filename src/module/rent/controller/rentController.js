@@ -11,11 +11,13 @@ module.exports = class RentController extends AbstractController {
      * @param {import('../service/rentService')} rentService 
      */
 
-    constructor(uploadMiddleware, rentService) {
+    constructor(uploadMiddleware, rentService, carService, userService) {
         super()
         this.ROUTE_BASE = "/rent"
         this.uploadMiddleware = uploadMiddleware
         this.rentService = rentService
+        this.carService = carService
+        this.userService = userService
     }
 
     /**
@@ -55,17 +57,19 @@ module.exports = class RentController extends AbstractController {
      */
 
     async form(req, res) {
-        const users = await this.rentService.getUsersAvailable()
-        if (users.length = 0) {
+        const users = await this.userService.getData()
+        if (users.length === 0) {
             req.session.errors = [`No se puede crear una renta sin usuarios en la base de datos`]
             res.redirect('/rent')
+            return
         }
 
-        const cars = await this.rentService.getCarsAvailable()
+        const cars = await this.carService.getData()
 
-        if (cars.length = 0) {
+        if (cars.length === 0) {
             req.session.errors = [`No se puede crear una renta sin vehiculos en la base de datos`]
             res.redirect('/rent')
+            return
         }
 
         res.render("rent/view/form.html", { users, cars })
@@ -78,11 +82,12 @@ module.exports = class RentController extends AbstractController {
      */
 
     async view(req, res) {
+
+        const { id } = req.params
+        if (!id) {
+            throw new RentIdNotDefinedError()
+        }
         try {
-            const { id } = req.params
-            if (!id) {
-                throw new RentIdNotDefinedError()
-            }
 
             const rent = await this.rentService.getSelectedRent(id)
             res.render('rent/view/view.html', { rent })
@@ -121,23 +126,26 @@ module.exports = class RentController extends AbstractController {
      */
 
     async edit(req, res) {
+        const { id } = req.params
+        if (!id) {
+            throw new RentIdNotDefinedError()
+        }
         try {
-            const { id } = req.params
-            if (!id) {
-                throw new RentIdNotDefinedError()
-            }
-            const users = await this.rentService.getUsersAvailable()
 
-            if (users.length = 0) {
+            const users = await this.userService.getData()
+
+            if (users.length === 0) {
                 req.session.errors = [`No se puede editar una renta sin usuarios en la base de datos`]
                 res.redirect('/rent')
+                return
             }
 
-            const cars = await this.rentService.getCarsAvailable()
+            const cars = await this.rentService.getData()
 
-            if (cars.length = 0) {
+            if (cars.length === 0) {
                 req.session.errors = [`No se puede editar una renta sin vehiculos en la base de datos`]
                 res.redirect('/rent')
+                return
             }
 
             const rent = await this.rentService.getSelectedRent(id)
@@ -158,18 +166,17 @@ module.exports = class RentController extends AbstractController {
     */
 
     async remove(req, res) {
+        const { id } = req.params
+        if (!id) {
+            throw new RentIdNotDefinedError()
+        }
         try {
-            const { id } = req.params
-            if (!id) {
-                throw new RentIdNotDefinedError()
-            }
-
             const rentDeleted = await this.rentService.remove(id)
             if (rentDeleted) {
                 req.session.messages = [`La renta con id ${id} se elimino con exito`]
             }
         } catch (e) {
-            req.errors = [e.message]
+            req.session.errors = [e.message]
         }
         res.redirect('/rent')
     }

@@ -28,16 +28,6 @@ module.exports = class RentRepository extends AbstractRentRepository {
         return response.map(x => x.toJSON())
     }
 
-    async getUsersAvailable() {
-        const response = await this.userModel.findAll()
-        return response.map(x => userMapper(x))
-    }
-
-    async getCarsAvailable() {
-        const response = await this.carModel.findAll()
-        return response.map(x => carMapper(x))
-    }
-
     /**
      * 
      * @param {import('../entity/Rent')} rent 
