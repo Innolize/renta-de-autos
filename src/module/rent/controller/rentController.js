@@ -1,5 +1,7 @@
+const session = require('express-session')
 const AbstractController = require('../../abstractController')
 const { fromFormToEntity } = require('../mapper/rentMapper')
+const RentIdNotDefinedError = require('./error/rentIdNotDefinedError')
 
 module.exports = class RentController extends AbstractController {
 
@@ -32,15 +34,39 @@ module.exports = class RentController extends AbstractController {
 
     }
 
+    /**
+     * 
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res 
+     */
+
     async index(req, res) {
+        const { errors, messages } = req.session
         const rents = await this.rentService.getData()
-        console.log(rents)
-        res.render("rent/view/index.html", { rents })
+        res.render("rent/view/index.html", { rents, errors, messages })
+        req.session.errors = []
+        req.session.messages = []
     }
+
+    /**
+     * 
+     * @param {import('express').Request} req 
+     * @param {import('express').Response} res 
+     */
 
     async form(req, res) {
         const users = await this.rentService.getUsersAvailable()
+        if (users.length = 0) {
+            req.session.errors = [`No se puede crear una renta sin usuarios en la base de datos`]
+            res.redirect('/rent')
+        }
+
         const cars = await this.rentService.getCarsAvailable()
+
+        if (cars.length = 0) {
+            req.session.errors = [`No se puede crear una renta sin vehiculos en la base de datos`]
+            res.redirect('/rent')
+        }
 
         res.render("rent/view/form.html", { users, cars })
     }
@@ -52,9 +78,18 @@ module.exports = class RentController extends AbstractController {
      */
 
     async view(req, res) {
-        const { id } = req.params
-        const rent = await this.rentService.getSelectedRent(id)
-        res.render('rent/view/view.html', { rent })
+        try {
+            const { id } = req.params
+            if (!id) {
+                throw new RentIdNotDefinedError()
+            }
+
+            const rent = await this.rentService.getSelectedRent(id)
+            res.render('rent/view/view.html', { rent })
+        } catch (e) {
+            req.session.errors = [e.message]
+            res.redirect('/rent')
+        }
     }
 
     /**
@@ -67,11 +102,16 @@ module.exports = class RentController extends AbstractController {
         try {
             const rent = fromFormToEntity(req.body)
             const savedRent = await this.rentService.save(rent)
-            res.redirect('/rent')
+            if (rent.id) {
+                req.session.messages = [`Se actualizo renta con id ${rent.id}`]
+            } else {
+                req.session.messages = [`Se creo renta con id ${savedRent.id}`]
+            }
 
         } catch (e) {
-            console.log(e)
+            req.session.errors = [e.message]
         }
+        res.redirect('/rent')
     }
 
     /**
@@ -81,12 +121,34 @@ module.exports = class RentController extends AbstractController {
      */
 
     async edit(req, res) {
-        const { id } = req.params
-        const users = await this.rentService.getUsersAvailable()
-        const cars = await this.rentService.getCarsAvailable()
-        const rent = await this.rentService.getSelectedRent(id)
+        try {
+            const { id } = req.params
+            if (!id) {
+                throw new RentIdNotDefinedError()
+            }
+            const users = await this.rentService.getUsersAvailable()
 
-        res.render('rent/view/form.html', { rent, users, cars })
+            if (users.length = 0) {
+                req.session.errors = [`No se puede editar una renta sin usuarios en la base de datos`]
+                res.redirect('/rent')
+            }
+
+            const cars = await this.rentService.getCarsAvailable()
+
+            if (cars.length = 0) {
+                req.session.errors = [`No se puede editar una renta sin vehiculos en la base de datos`]
+                res.redirect('/rent')
+            }
+
+            const rent = await this.rentService.getSelectedRent(id)
+
+            res.render('rent/view/form.html', { rent, users, cars })
+
+
+        } catch (e) {
+            req.session.errors = [e.message]
+            res.redirect('/rent')
+        }
     }
 
     /**
@@ -96,10 +158,18 @@ module.exports = class RentController extends AbstractController {
     */
 
     async remove(req, res) {
-        const { id } = req.params
-        const rentDeleted = await this.rentService.remove(id)
-        if (rentDeleted) {
-            console.log('Se elimino con exito')
+        try {
+            const { id } = req.params
+            if (!id) {
+                throw new RentIdNotDefinedError()
+            }
+
+            const rentDeleted = await this.rentService.remove(id)
+            if (rentDeleted) {
+                req.session.messages = [`La renta con id ${id} se elimino con exito`]
+            }
+        } catch (e) {
+            req.errors = [e.message]
         }
         res.redirect('/rent')
     }

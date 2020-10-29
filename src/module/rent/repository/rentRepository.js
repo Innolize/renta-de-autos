@@ -25,7 +25,6 @@ module.exports = class RentRepository extends AbstractRentRepository {
 
     async getData() {
         const response = await this.rentModel.findAll({ include: ["AutoRentado", "UsuarioRentado"] })
-        console.log(response)
         return response.map(x => x.toJSON())
     }
 
@@ -80,18 +79,18 @@ module.exports = class RentRepository extends AbstractRentRepository {
                 }
             }
         })
-        let test = rentasSuperpuestas.map(x => rentMapper(x))
+        let test = rentasSuperpuestas.map(x => toJSON(x))
 
         if (test.length > 0) {
             const ids = rentasSuperpuestas.map(renta => renta.id)
             throw new Error(`No se pudo crear, conflicto de fechas con renta/s de id ${ids}`)
         }
 
-
-        const buildOptions = { isNewRecord: !rent.id, include: ["AutoRentado", "UsuarioRentado"] }
+        const buildOptions = { isNewRecord: !rent.id }
         newRent = this.rentModel.build(rent, buildOptions)
         newRent.setDataValue("id_auto", rent.AutoRentado.id)
         newRent.setDataValue('id_usuario', rent.UsuarioRentado.id)
+        console.log(newRent)
         newRent = await newRent.save()
         return rentMapper(newRent)
     }
