@@ -3,3 +3,5 @@ coverage/
 
 ##ignora archivos de tipo database
 *.db
+
+.env

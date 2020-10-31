@@ -21,6 +21,7 @@
     "nodemon": "^2.0.6"
   },
   "scripts": {
+    "dbconfig": "node src/config/db.init.js",
     "dev": "nodemon -e html,js src/app.js --verbose",
     "test": "jest --coverage",
     "test:dev": "jest --watch",
