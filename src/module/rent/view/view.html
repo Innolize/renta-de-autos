@@ -32,19 +32,22 @@
             </tr>
             <tr>
                 <td class="has-text-weight-bold">Precio x dia:</td>
-                <td class="is-capitalized">{{rent.precioDia}}</td>
+                <td class="is-capitalized">${{rent.precioDia}}</td>
             </tr>
             <tr>
-                <td class="has-text-weight-bold">precioTotal:</td>
-                <td class="is-capitalized">{{rent.precioTotal}}</td>
+                <td class="has-text-weight-bold">Precio Total:</td>
+                <td class="is-capitalized">${{rent.precioTotal}}</td>
             </tr>
             <tr>
                 <td class="has-text-weight-bold">Forma de pago:</td>
-                <td>{{rent.formaPago}}</td>
+                <td class="is-capitalized">{{rent.formaPago}}</td>
             </tr>
             <tr>
                 <td class="has-text-weight-bold">Abonado:</td>
-                <td class="is-capitalized">{{rent.abonado}}</td>
+                <td class="is-capitalized">{{ "si" if rent.abonado else "no" }}</td>
+                
+
+
             </tr>
             <tr>
                 <td class="has-text-weight-bold">Id vehiculo:</td>
