@@ -80,9 +80,9 @@ module.exports = class RentRepository extends AbstractRentRepository {
                 }
             }
         })
-        let test = rentasSuperpuestas.map(x => x.toJSON())
+        let rentasSuperpuestasResultado = rentasSuperpuestas.map(x => x.toJSON())
 
-        if (test.length > 0) {
+        if (rentasSuperpuestasResultado.length > 0) {
             const ids = rentasSuperpuestas.map(renta => renta.id)
             throw new Error(`No se pudo crear, conflicto de fechas con renta/s de id ${ids}`)
         }

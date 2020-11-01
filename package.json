@@ -24,7 +24,7 @@
     "dbconfig": "node src/config/db.init.js",
     "dev": "nodemon -e html,js src/app.js --verbose",
     "test": "jest --coverage",
-    "test:dev": "jest --watch",
+    "test:all": "jest --watch",
     "test:cars": "jest --watchAll src/module/cars",
     "test:users": "jest --watchAll src/module/users",
     "test:rent": "jest --watchAll src/module/rent"
