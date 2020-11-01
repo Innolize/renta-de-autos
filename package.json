@@ -25,6 +25,7 @@
     "dev": "nodemon -e html,js src/app.js --verbose",
     "test": "jest --coverage",
     "test:dev": "jest --watch",
+    "test:cars": "jest --watchAll src/module/cars",
     "test:users": "jest --watchAll src/module/users",
     "test:rent": "jest --watchAll src/module/rent"
   }

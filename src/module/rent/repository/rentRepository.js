@@ -4,6 +4,7 @@ const { fromDbToEntity: userMapper } = require('../../users/mapper/userMapper')
 const { fromDbToEntity: carMapper } = require('../../cars/mapper/carMapper')
 const { fromDbToEntity: rentMapper } = require('../mapper/rentMapper')
 const calcularPrecioTotal = require('../../../utility/calcularPrecioTotal')
+const validarFechas = require('../../../utility/validacionFechas')
 const { Op } = require('sequelize')
 
 module.exports = class RentRepository extends AbstractRentRepository {
@@ -35,6 +36,8 @@ module.exports = class RentRepository extends AbstractRentRepository {
 
     async save(rent) {
         let newRent
+
+        validarFechas(rent.rentaInicio, rent.rentaTermina)
 
         const car = await this.carModel.findByPk(rent.AutoRentado.id)
         if (!car) {
