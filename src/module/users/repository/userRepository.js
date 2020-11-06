@@ -16,7 +16,7 @@ module.exports = class UserRepository extends AbstractUserRepository {
         this.userModel = userModel
     }
 
-    async getData() {
+    async getAll() {
         const results = await this.userModel.findAll()
         return results.map(fromDbToEntity)
     }

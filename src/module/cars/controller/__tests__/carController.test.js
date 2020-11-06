@@ -7,7 +7,7 @@ afterEach(() => {
 });
 
 const serviceMock = {
-    getData: jest.fn(() => Promise.resolve([])),
+    getAll: jest.fn(() => Promise.resolve([])),
     save: jest.fn(() => Promise.resolve(true)),
     getById: jest.fn(() => Promise.resolve({})),
     remove: jest.fn(() => Promise.resolve({}))

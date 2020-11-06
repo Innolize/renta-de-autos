@@ -6,8 +6,8 @@ module.exports = class Service {
         this.userRepository = userRepository
     }
 
-    async getData() {
-        return await this.userRepository.getData()
+    async getAll() {
+        return await this.userRepository.getAll()
     }
 
     async getById(id) {

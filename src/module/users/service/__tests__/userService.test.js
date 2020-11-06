@@ -3,7 +3,7 @@ const UserNotDefinedError = require('../../controller/error/userNotDefinedError'
 const UserService = require('../userService')
 
 const mockRepository = {
-    getData: jest.fn(),
+    getAll: jest.fn(),
     getById: jest.fn(),
     remove: jest.fn(),
     save: jest.fn()
@@ -12,8 +12,8 @@ const mockRepository = {
 const service = new UserService(mockRepository)
 
 test('Llama a getData del mockRepository una vez', async () => {
-    await service.getData()
-    expect(mockRepository.getData).toHaveBeenCalledTimes(1)
+    await service.getAll()
+    expect(mockRepository.getAll).toHaveBeenCalledTimes(1)
 })
 
 

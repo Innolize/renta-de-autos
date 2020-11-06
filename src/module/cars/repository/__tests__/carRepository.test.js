@@ -74,11 +74,11 @@ test('Elimina un auto y devuelve true', async () => {
     await expect(repository.getById(ID_ASIGNADO_AUTOMATICAMENTE)).rejects.toThrowError(CarNotFoundError)
 })
 
-test('Inserta 2 autos a la base de datos y luego los llama con getData', async () => {
+test('Inserta 2 autos a la base de datos y luego los llama con getAll', async () => {
     await repository.save(sampleCar)
     await repository.save(sampleCar2)
 
-    const resultado = await repository.getData()
+    const resultado = await repository.getAll()
     expect(resultado).toHaveLength(2)
 })
 

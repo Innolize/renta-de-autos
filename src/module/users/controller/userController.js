@@ -29,7 +29,7 @@ module.exports = class Controller extends AbstractController {
      */
 
     async index(req, res) {
-        const users = await this.userService.getData()
+        const users = await this.userService.getAll()
         const { messages, errors } = req.session
         res.render('users/view/index.html', { users, messages, errors })
         req.session.messages = []

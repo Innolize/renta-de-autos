@@ -106,26 +106,6 @@ const Rent = container.get('RentModel');
         { nombre: "Carlitos", apellido: "Test", tipoDocumento: "DNI", numeroDocumento: "35945234", nacionalidad: "Argentina", direccion: "direccionTest 352", telefono: 45674321, email: "test123@yahoo.com", nacimiento: "1990-05-05"}
     ])
 
-    // const primeraRenta = Rent.build({
-    //     rentaInicio: "2020-05-05",
-    //     rentaTermina: "2020-05-09",
-    //     precioDia: 100,
-    //     precioTotal: 400,
-    //     formaPago: "efectivo",
-    //     abonado: true,
-    //     fk_auto: 2,
-    //     fk_usuario: 1,
-    // })
-
-    // await primeraRenta.save()
-    // console.log(primeraRenta.toJSON())
-
-
-    // const test = await Rent.findByPk(1, {
-    //     include: ["autoRentado", "usuarioRentado"]
-    // })
-    // console.log("-----", test.toJSON())
-
 })()
 
 const sessionDb = container.get('SessionSequelize')

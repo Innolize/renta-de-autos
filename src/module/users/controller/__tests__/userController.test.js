@@ -9,7 +9,7 @@ const mockMiddleware = {
     none: jest.fn()
 }
 const mockService = {
-    getData: jest.fn(() => Promise.resolve([])),
+    getAll: jest.fn(() => Promise.resolve([])),
     getById: jest.fn(() => Promise.resolve({})),
     save: jest.fn(() => Promise.resolve({ id: 5 })),
     remove: jest.fn(() => Promise.resolve({ id: 5 }))
@@ -32,7 +32,7 @@ test('index renderea indexl con users, messages y errors ', async () => {
     const renderMock = jest.fn()
 
     await Controller.index({ session: { messages: [], errors: [] } }, { render: renderMock })
-    expect(mockService.getData).toHaveBeenCalledTimes(1)
+    expect(mockService.getAll).toHaveBeenCalledTimes(1)
     expect(renderMock).toHaveBeenCalledTimes(1)
     expect(renderMock).toHaveBeenCalledWith(
         'users/view/index.html',

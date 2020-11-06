@@ -59,7 +59,7 @@ test('Inserta 2 usuarios a la base de datos y luego los llama con getData', asyn
     await repository.save(sampleUser)
     await repository.save(sampleUser2)
 
-    const resultado = await repository.getData()
+    const resultado = await repository.getAll()
     expect(resultado).toHaveLength(2)
 })
 

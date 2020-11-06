@@ -23,4 +23,6 @@ initUserModule(app, container)
 initUserModule(app, container)
 initRentModule(app, container)
 
-app.listen(8000, () => console.log('escuchando en http://localhost:8000/'))
+const PORT = process.env.PORT || 8000
+
+app.listen(PORT, () => console.log(`escuchando en http://localhost:${PORT}/`))

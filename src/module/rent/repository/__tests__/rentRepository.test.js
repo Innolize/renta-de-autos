@@ -9,6 +9,9 @@ const RentEntity = require('../../entity/Rent')
 const rentModel = require('../../model/rentModel')
 const carModel = require('../../../cars/model/carModel')
 const userModel = require('../../../users/model/userModel')
+const BookingConflictError = require('../error/bookingConflictError')
+const NonExistentCarError = require('../error/nonExistentCarError')
+const NonExistentUserError = require('../error/nonExistentUserError')
 
 
 const sequelizeInstance = new Sequelize('sqlite::memory')
@@ -46,8 +49,8 @@ const sampleCar = new CarEntity({
 const sampleRent = new RentEntity({
     rentaInicio: "2020-05-05",
     rentaTermina: "2020-05-09",
-    precioDia: undefined,
-    precioTotal: undefined,
+    precioDia: 100,
+    precioTotal: 400,
     formaPago: "efectivo",
     abonado: true,
     AutoRentado: { id: 1 },
@@ -75,7 +78,7 @@ test('save guarda renta con usuario y auto existente', async () => {
     const newRent = await repository.save(sampleRent)
 
 
-    const response = await repository.getData()
+    const response = await repository.getAll()
     console.log(response)
     expect(response).toHaveLength(1)
 })
@@ -85,31 +88,6 @@ test('save devuelve error al querer guardar renta con auto inexistente', async (
     await expect(repository.save(sampleRent)).rejects.toThrowError(Error)
 })
 
-test('save devuelve error al querer guardar renta con usuario inexistente', async () => {
-    const newUser = await user.create(sampleUser)
-    await expect(repository.save(sampleRent)).rejects.toThrowError(Error)
-})
-
-test('save devuelve error al tener conflicto de fechas con otra renta', async () => {
-    const newUser = await user.create(sampleUser)
-    const newCar = await car.create(sampleCar)
-
-    const sampleRentError = new RentEntity({
-        rentaInicio: "2020-05-06",
-        rentaTermina: "2020-05-10",
-        precioDia: undefined,
-        precioTotal: undefined,
-        formaPago: "efectivo",
-        abonado: true,
-        AutoRentado: { id: 1 },
-        UsuarioRentado: { id: 1 }
-    })
-
-    await repository.save(sampleRent)
-
-
-    await expect(repository.save(sampleRentError)).rejects.toThrowError(Error)
-})
 
 test('save devuelve error al querer guardar renta con usuario inexistente', async () => {
     const newUser = await user.create(sampleUser)
@@ -125,3 +103,50 @@ test('getSelectedRent devuelve error al no pasarle id', async () => {
     await expect(repository.getSelectedRent).rejects.toThrowError(RentIdNotDefinedError)
 })
 
+test('getSelectedRent devuelve renta incluyendo usuario y auto', async () => {
+
+    const newUser = await user.create(sampleUser)
+    const newCar = await car.create(sampleCar)
+    const newRent = await repository.save(sampleRent)
+
+    const resultado = await repository.getSelectedRent(1)
+    expect(resultado.AutoRentado.marca).toEqual(sampleCar.marca)
+    expect(resultado.AutoRentado.modelo).toEqual(sampleCar.modelo)
+
+    expect(resultado.UsuarioRentado.nombre).toEqual(sampleUser.nombre)
+    expect(resultado.UsuarioRentado.apellido).toEqual(sampleUser.apellido)
+})
+
+test('Verifica superposicion de rentas sin devolver error', async () => {
+    const newUser = await user.create(sampleUser)
+    const newCar = await car.create(sampleCar)
+    const newRent = await repository.save(sampleRent)
+    const newRent2 = await repository.getCarOrUserBookingBetweenDates({ ...sampleRent, rentaInicio: "2020-05-10", rentaTermina: "2020-05-12" })
+})
+
+test('Verifica superposicion de rentas devolviendo error', async () => {
+    const newUser = await user.create(sampleUser)
+    const newCar = await car.create(sampleCar)
+    const newRent = await repository.save(sampleRent)
+    await expect(repository.getCarOrUserBookingBetweenDates(sampleRent)).rejects.toThrowError(BookingConflictError)
+})
+
+test('validateCarAndUserExistence valida que usuario y auto pasado como parametro existan y devuelve dicho usuario y auto', async () => {
+    const newUser = await user.create(sampleUser)
+    const newCar = await car.create(sampleCar)
+    const resultado = await repository.validateCarAndUserExistence(newUser.id, newCar.id)
+    expect(resultado.car).toBeInstanceOf(CarEntity)
+    expect(resultado.user).toBeInstanceOf(UserEntity)
+})
+
+test('Devuelve error al pasarle el id de un auto que no inexistente', async () => {
+    const newUser = await user.create(sampleUser)
+    const newCar = await car.create(sampleCar)
+    await expect(repository.validateCarAndUserExistence(5, 1)).rejects.toThrowError(NonExistentCarError)
+})
+
+test('Devuelve error al pasarle el id de un usuario que no inexistente', async () => {
+    const newUser = await user.create(sampleUser)
+    const newCar = await car.create(sampleCar)
+    await expect(repository.validateCarAndUserExistence(1, 5)).rejects.toThrowError(NonExistentUserError)
+})

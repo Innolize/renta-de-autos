@@ -34,7 +34,7 @@ module.exports = class CarController extends AbstractController {
      */
 
     async index(req, res) {
-        const cars = await this.carService.getData()
+        const cars = await this.carService.getAll()
         const { errors, messages } = req.session
         res.render("cars/view/index.html", { cars, messages, errors })
         req.session.messages = []

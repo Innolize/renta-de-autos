@@ -44,7 +44,7 @@ module.exports = class RentController extends AbstractController {
 
     async index(req, res) {
         const { errors, messages } = req.session
-        const rents = await this.rentService.getData()
+        const rents = await this.rentService.getAll()
         res.render("rent/view/index.html", { rents, errors, messages })
         req.session.errors = []
         req.session.messages = []
@@ -57,14 +57,14 @@ module.exports = class RentController extends AbstractController {
      */
 
     async form(req, res) {
-        const users = await this.userService.getData()
+        const users = await this.userService.getAll()
         if (users.length === 0) {
             req.session.errors = [`No se puede crear una renta sin usuarios en la base de datos`]
             res.redirect('/rent')
             return
         }
 
-        const cars = await this.carService.getData()
+        const cars = await this.carService.getAll()
 
         if (cars.length === 0) {
             req.session.errors = [`No se puede crear una renta sin vehiculos en la base de datos`]
@@ -132,7 +132,7 @@ module.exports = class RentController extends AbstractController {
         }
         try {
 
-            const users = await this.userService.getData()
+            const users = await this.userService.getAll()
 
             if (users.length === 0) {
                 req.session.errors = [`No se puede editar una renta sin usuarios en la base de datos`]
@@ -140,7 +140,7 @@ module.exports = class RentController extends AbstractController {
                 return
             }
 
-            const cars = await this.carService.getData()
+            const cars = await this.carService.getAll()
             if (cars.length === 0) {
                 req.session.errors = [`No se puede editar una renta sin vehiculos en la base de datos`]
                 res.redirect('/rent')
