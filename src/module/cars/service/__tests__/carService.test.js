@@ -7,7 +7,7 @@ afterEach(() => {
 });
 
 const mockRepository = {
-    getData: jest.fn(),
+    getAll: jest.fn(),
     save: jest.fn(),
     getById: jest.fn(),
     remove: jest.fn(),
@@ -15,9 +15,9 @@ const mockRepository = {
 
 const Service = new CarService(mockRepository)
 
-test('getData llama a repository getData una vez', async () => {
-    await Service.getData()
-    expect(mockRepository.getData).toHaveBeenCalledTimes(1)
+test('getAll llama a repository getAll una vez', async () => {
+    await Service.getAll()
+    expect(mockRepository.getAll).toHaveBeenCalledTimes(1)
 })
 
 test('CarService.save llama a Repository save una vez con data', async () => {

@@ -7,7 +7,7 @@ afterEach(() => {
 });
 
 const serviceMock = {
-    getData: jest.fn(() => Promise.resolve([])),
+    getAll: jest.fn(() => Promise.resolve([])),
     save: jest.fn(() => Promise.resolve(true)),
     getById: jest.fn(() => Promise.resolve({})),
     remove: jest.fn(() => Promise.resolve({}))
@@ -185,6 +185,6 @@ test('configureRoutes llama a app', () => {
 
     controller.configureRoutes(app)
 
-    expect(app.get).toHaveBeenCalledTimes(4)
+    expect(app.get).toHaveBeenCalledTimes(5)
     expect(app.post).toHaveBeenCalledTimes(2)
 })

@@ -1,6 +1,6 @@
 const Car = require('../entity/Car')
 
-function fromFormToEntity({ id, marca, modelo, año, kilometraje, color, "aire-acondicionado": aireAcondicionado, pasajeros, "caja-cambios": cajaCambios, imagen }) {
+function fromFormToEntity({ id, marca, modelo, año, kilometraje, color, "aire-acondicionado": aireAcondicionado, pasajeros, "caja-cambios": cajaCambios, precio, imagen }) {
     return new Car({
         id,
         marca,
@@ -11,6 +11,7 @@ function fromFormToEntity({ id, marca, modelo, año, kilometraje, color, "aire-a
         aireAcondicionado: (aireAcondicionado === "true" ? true : false),
         pasajeros: Number(pasajeros),
         cajaCambios,
+        precio,
         imagen
     })
 }

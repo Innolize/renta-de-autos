@@ -15,7 +15,7 @@ module.exports = class Repository extends AbstractCarRepository {
         this.carModel = carModel
     }
 
-    async getData() {
+    async getAll() {
         const carList = await this.carModel.findAll()
         return carList.map(fromDbToEntity)
     }

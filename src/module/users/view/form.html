@@ -1,0 +1,72 @@
+{%extends "view/layout/base.html" %}
+
+{% block body %}
+<div class="container">
+    <form action="/user/save" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value={{user.id}}>
+        <div class="field">
+            <label class="label">Nombre</label>
+            <div class="control">
+                <input type="text" class="input" name='nombre' placeholder="Carlos" value={{user.nombre}}>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Apellido</label>
+            <div class="control">
+                <input type="text" class="input" name='apellido' placeholder="Díaz" value={{user.apellido}}>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Tipo documento</label>
+            <div class="control">
+                <input type="text" class="input" name='tipo-documento' placeholder="DNI" value={{user.tipoDocumento}}>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Nro documento</label>
+            <div class="control">
+                <input type="number" class="input" name='numero-documento' placeholder="32526863"
+                    value={{user.numeroDocumento}}>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Nacionalidad</label>
+            <div class="control">
+                <input type="text" class="input" name='nacionalidad' placeholder="argentina"
+                    value={{user.nacionalidad}}>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Dirección</label>
+            <div class="control">
+                <input type="text" class="input" name='direccion' placeholder="Micasa 4123" value={{user.direccion}}>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Telefono</label>
+            <div class="control">
+                <input type="number" class="input" name='telefono' placeholder="46256123" value={{user.telefono}}>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+                <input type="text" class="input" name='email' placeholder="renta.de.vehiculos@gmail.com"
+                    value={{user.email}}>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Fecha de nacimiento</label>
+            <div class="control">
+                <input type="date" class="input" name='fecha-nacimiento' value={{user.nacimiento}}>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

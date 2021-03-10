@@ -1,0 +1,15 @@
+{% extends 'view/layout/base.html' %}
+
+{% block body %}
+
+<h1 class="is-size-4">
+    Estás seguro que querés borrar el usuario {{user.nombre}} {{user.apellido}} con id {{user.id}}?
+</h1>
+<div class="container is-flex is-justify-content-center">
+    <a href="/user" class="button">Cancelar</a>
+    <form action="/user/remove/{{user.id}}" method="POST">
+        <button class="button" type="submit">Borrar</button>
+    </form>
+</div>
+
+{% endblock %}

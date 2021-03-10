@@ -1,0 +1,73 @@
+{% extends "view/layout/base.html" %}
+
+{% block body %}
+<div class="container is-flex is-justify-content-center mt-3">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="has-text-weight-bold">Usuario:</td>
+                <td class="is-capitalized">
+                    <a href="/user/view/{{rent.UsuarioRentado.id}}">
+                        {{rent.UsuarioRentado.nombre}}, {{rent.UsuarioRentado.apellido}}
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Vehiculo:</td>
+
+                <td class="is-capitalized">
+                    <a href="/car/view/{{rent.AutoRentado.id}}">
+                        {{rent.AutoRentado.marca}}, {{rent.AutoRentado.modelo}}
+                    </a>
+                </td>
+
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Fecha inicio:</td>
+                <td>{{rent.rentaInicio}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Fecha termina:</td>
+                <td>{{rent.rentaTermina}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Precio x dia:</td>
+                <td class="is-capitalized">${{rent.precioDia}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Precio Total:</td>
+                <td class="is-capitalized">${{rent.precioTotal}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Forma de pago:</td>
+                <td class="is-capitalized">{{rent.formaPago}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Abonado:</td>
+                <td class="is-capitalized">{{ "si" if rent.abonado else "no" }}</td>
+                
+
+
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Id vehiculo:</td>
+                <td class="is-capitalized">{{rent.AutoRentado.id}}</td>
+            </tr>
+            <tr>
+                <td class="has-text-weight-bold">Id usuario:</td>
+                <td class="is-capitalized">{{rent.UsuarioRentado.id}}</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="/rent/edit/{{rent.id}}" class="button is-primary">Editar</a>
+                </td>
+                <td>
+                    <form action="/rent/remove/{{rent.id}}" method="POST">
+                        <button type="submit" class="button is-danger">Borrar</a>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

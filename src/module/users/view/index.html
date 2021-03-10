@@ -1,0 +1,64 @@
+{% extends "view/layout/base.html" %}
+
+{% block body %}
+<div class="container">
+    <a class="button mt-3" href="/user/form">Nuevo Usuario</a>
+    <h1 class='is-size-1 has-text-centered'>Usuarios</h1>
+
+    {% for message in messages %}
+    <div class="notification is-success has-text-centered">
+        <h1 class="is-size-5">{{message}}</h1>
+    </div>
+    {%endfor%}
+
+    {% for error in errors %}
+    <div class="notification is-danger has-text-centered">
+        <h1 class="is-size-5">{{error}}</h1>
+    </div>
+    {%endfor%}
+
+    <table class="table is-fullwidth has-text-centered is-bordered is-hoverable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.nombre}} {{user.apellido}}</td>
+                <td>
+                    <div class="is-flex is-justify-content-center">
+                        <a class="button is-success" href="user/view/{{user.id}}">
+                            <i class="far fa-eye"></i>
+                        </a>
+                        <a class="button is-info" href="user/edit/{{user.id}}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <form action="/user/remove/{{user.id}}" method="GET">
+
+                            <button type="submit" class="button is-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                    </div>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+{% endblock %}

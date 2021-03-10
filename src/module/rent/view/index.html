@@ -1,0 +1,71 @@
+{% extends "view/layout/base.html" %}
+
+{% block body %}
+<div class="container">
+    <a class="button mt-3" href="/rent/form">Nuevo renta</a>
+    <h1 class='is-size-1 has-text-centered'>Tabla de rentas</h1>
+
+    {% for message in messages %}
+    <div class="notification is-success has-text-centered">
+        <h1 class="is-size-5">{{message}}</h1>
+    </div>
+    {%endfor%}
+
+    {% for error in errors %}
+    <div class="notification is-danger has-text-centered">
+        <h1 class="is-size-5">{{error}}</h1>
+    </div>
+    {%endfor%}
+
+    <table class="table is-fullwidth has-text-centered is-bordered is-hoverable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Precio total</th>
+
+                <th>Usuario</th>
+                <th>Vehículo</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rent in rents %}
+            <tr>
+                <td>{{rent.id}}</td>
+                <td>${{rent.precioTotal}}</td>
+                <td>
+                    <a href="user/view/{{rent.AutoRentado.id}}">{{rent.UsuarioRentado.apellido}},
+                        {{rent.UsuarioRentado.nombre}}</a>
+                </td>
+                <td>
+                    <a href="car/view/{{rent.UsuarioRentado.id}}">{{rent.AutoRentado.marca}}, {{rent.AutoRentado.modelo}}</a>
+                </td>
+                <td>
+                    {{rent.rentaInicio}}
+                </td>
+                <td>
+                    {{rent.rentaTermina}}
+                </td>
+                <td>
+                    <div class="is-flex is-justify-content-center">
+                        <a class="button is-success" href="rent/view/{{rent.id}}">
+                            <i class="far fa-eye"></i>
+                        </a>
+                        <a class="button is-info" href="rent/edit/{{rent.id}}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <form action="rent/remove/{{rent.id}}" method="POST">
+
+                            <button type="submit" class="button is-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
