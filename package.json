@@ -23,6 +23,7 @@
   "scripts": {
     "dbconfig": "node src/config/db.init.js",
     "dev": "nodemon -e html,js src/app.js --verbose",
+    "start": "node src/app.js",
     "test": "jest --coverage",
     "test:all": "jest --watch",
     "test:cars": "jest --watchAll src/module/cars",
